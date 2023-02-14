@@ -47,7 +47,7 @@ const migration = () => {
         let query = "";
         switch (item.flag) {
           case ACTIONS.ADD:
-            query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.problem}', '${item.notes}', '${item.price}', '${item.doneBy}', ${item.statusId})`;
+            query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.problem}', '${item.notes}', '${item.price}', '${item.doneBy}', ${item.statusId}, '${item.createdAt}', '${item.updatedAt}')`;
             break;
           case ACTIONS.EDIT:
             const formData = new FormData();
@@ -65,7 +65,7 @@ const migration = () => {
             //   .catch((error) => {
             //     console.log(error);
             //   });
-            query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', doneBy = '${item.doneBy}', statusId = ${item.statusId} WHERE id = ${item.id}`;
+            query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
             break;
           case ACTIONS.DELETE:
             query = `DELETE from scooters WHERE id = ${item.id}`;
@@ -87,6 +87,8 @@ const migration = () => {
         }
 
         db.set("scooters", rows);
+        browserWindow = browserUtility.getBrowserWindow();
+        browserWindow.webContents.send("DATA_CHANGE");
       });
       connection.end();
       return true;
@@ -207,7 +209,8 @@ module.exports.addScooter = (data) => {
           console.log("case 1");
           resolve(data);
         } else {
-          const query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId) VALUES('${data.name}', '${data.phone}', '${data.barcode}', '${data.model}', '${data.termen}', '${data.problem}', '${data.notes}', '${data.price}', '${data.doneBy}', ${data.statusId})`;
+          const query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${data.name}', '${data.phone}', '${data.barcode}', '${data.model}', '${data.termen}', '${data.problem}', '${data.notes}', '${data.price}', '${data.doneBy}', ${data.statusId}, '${data.createdAt}', '${data.updatedAt}')`;
+          console.log("query:", query);
           connection.query(query, (err, result, fields) => {
             if (err) {
               this.handleUntracked(data);
@@ -280,7 +283,7 @@ module.exports.updateScooter = (data) => {
       if (err) {
         this.handleUntracked(data);
       } else {
-        const query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', doneBy = '${data.doneBy}', statusId = ${data.statusId} WHERE id = ${data.id}`;
+        const query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', doneBy = '${data.doneBy}', statusId = ${data.statusId}, updatedAt = '${data.updatedAt}' WHERE id = ${data.id}`;
         connection.query(query, (err) => {
           if (err) {
             this.handleUntracked(data);
@@ -342,4 +345,77 @@ module.exports.deleteScooter = (data) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+module.exports.synchronize = () => {
+  this.executeQuery = (query) => {
+    return new Promise((resolve, reject) => {
+      connection.query(query, (err) => {
+        if (err) throw reject(err);
+        resolve();
+      });
+    });
+  };
+
+  let connection = mysql.createConnection({
+    host: config.HOST,
+    user: config.USER,
+    password: config.PASSWORD,
+    database: config.DB,
+  });
+  return new Promise((resolve) => {
+    connection.connect(async (err) => {
+      if (err) {
+        resolve({
+          status: STATUSES.ERROR,
+          message: "DB Connection Error",
+        });
+      } else {
+        let untracked = db.get("untracked");
+        let temp = untracked;
+        await Promise.all(
+          untracked.map(async (item) => {
+            let query = "";
+            switch (item.flag) {
+              case ACTIONS.ADD:
+                query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.problem}', '${item.notes}', '${item.price}', '${item.doneBy}', ${item.statusId}, '${item.createdAt}', '${item.updatedAt}')`;
+                break;
+              case ACTIONS.EDIT:
+                const formData = new FormData();
+                const fileData = new LocalFileData(item.filePath);
+                formData.append("file", fileData.arrayBuffer, fileData.name);
+                query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
+                break;
+              case ACTIONS.DELETE:
+                query = `DELETE from scooters WHERE id = ${item.id}`;
+                break;
+              default:
+                break;
+            }
+            console.log("query:", query);
+            if (query) {
+              await this.executeQuery(query);
+              temp = temp.filter((obj) => obj.id !== item.id);
+              db.set("untracked", temp);
+            }
+          }),
+          connection.query("SELECT * FROM scooters", (err, rows) => {
+            if (err) {
+              console.log("An error ocurred performing the query.");
+              console.log(err);
+            }
+            db.set("scooters", rows);
+            browserWindow = browserUtility.getBrowserWindow();
+            browserWindow.webContents.send("DATA_CHANGE");
+          })
+        );
+        console.log("query ended");
+        connection.end();
+        resolve({
+          status: STATUSES.SUCCESS,
+          message: "Successfully Synchronized!",
+        });
+      }
+    });
+  });
 };

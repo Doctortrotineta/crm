@@ -4,10 +4,12 @@ import router from "./router";
 import store from "./store";
 import i18n from "../helpers/i18n";
 import vuetify from "./plugins/vuetify";
+import VueMask from "v-mask";
 import VueAxios from "vue-axios";
 import VuetifyUpload from "@kingscode/vuetify-upload";
 import axios from "axios";
 
+Vue.use(VueMask);
 Vue.use(VuetifyUpload);
 Vue.config.productionTip = false;
 

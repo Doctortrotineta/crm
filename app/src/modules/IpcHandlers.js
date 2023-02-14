@@ -29,6 +29,8 @@ ipcMain.handle(IPC_HANDLERS.DATABASE, async (event, args) => {
       return databaseUtility.updateScooter(args.data);
     case IPC_FUNCTIONS.DELETE_SCOOTER:
       return databaseUtility.deleteScooter(args.data);
+    case IPC_FUNCTIONS.SYNCHRONIZE:
+      return databaseUtility.synchronize(args.data);
     default:
       return null;
   }

@@ -26,6 +26,7 @@
                     <v-text-field
                       color="primary"
                       label="Phone Number"
+                      v-mask="'##########'"
                       v-model="form.phone"
                       :rules="rules.phone"
                       required
@@ -197,6 +198,7 @@ import ConfirmDialog from "./ConfirmDialog.vue";
 import PdfContent from "./PdfContent";
 import VueHtml2pdf from "vue-html2pdf";
 import axios from "axios";
+import dayjs from "dayjs";
 
 import { IPC_HANDLERS, IPC_FUNCTIONS } from "../../modules/constants";
 
@@ -213,7 +215,11 @@ export default {
       images: [],
       rules: {
         name: [(v) => !!v || "Name is required"],
-        phone: [(v) => !!v || "Phone Number is required"],
+        phone: [
+          (v) => !!v || "Phone Number is required",
+          (v) =>
+            (v || "").length >= 10 || "Phone Number must be a 10 digits number",
+        ],
         barcode: [
           (v) => !!v || "Barcode is required",
           (v) => Number.isInteger(Number(v)) || "Barcode must be a number",
@@ -348,6 +354,7 @@ export default {
     },
     updateScooter() {
       this.update = async () => {
+        this.form.updatedAt = dayjs().format("YYYY-MM-DD HH:mm:ss");
         await window.ipc
           .invoke(IPC_HANDLERS.DATABASE, {
             func: IPC_FUNCTIONS.UPDATE_SCOOTER,
