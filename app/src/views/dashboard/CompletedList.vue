@@ -105,7 +105,6 @@ export default {
   },
   mounted() {
     window.ipc.on("DATA_CHANGE", () => {
-      console.log("completed list changed");
       this.getScooterList();
     });
   },

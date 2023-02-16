@@ -104,7 +104,6 @@ export default {
   },
   mounted() {
     window.ipc.on("DATA_CHANGE", () => {
-      console.log("work list changed");
       this.getScooterList();
     });
   },

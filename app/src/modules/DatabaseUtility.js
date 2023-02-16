@@ -88,7 +88,9 @@ const migration = () => {
 
         db.set("scooters", rows);
         browserWindow = browserUtility.getBrowserWindow();
-        browserWindow.webContents.send("DATA_CHANGE");
+        if (browserWindow.webContents) {
+          browserWindow.webContents.send("DATA_CHANGE");
+        }
       });
       connection.end();
       return true;

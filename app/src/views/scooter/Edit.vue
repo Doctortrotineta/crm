@@ -186,7 +186,7 @@
     </v-snackbar>
     <confirm-dialog
       v-model="confirmDialog"
-      @cancel="confirmDialog = false"
+      @cancel="closeDialog"
       @confirm="sendSMS"
     />
   </div>
@@ -342,7 +342,7 @@ export default {
               this.snackBar.enabled = true;
               this.snackBar.message = result[2];
             }
-            this.confirmDialog = false;
+            this.closeDialog();
           }
         })
         .catch((error) => {
@@ -351,6 +351,14 @@ export default {
           this.snackBar.enabled = true;
           this.snackBar.message = "Unfortunately not sent SMS to the client";
         });
+    },
+    closeDialog() {
+      this.confirmDialog = false;
+      setTimeout(() => {
+        this.$router.push({
+          path: `/admin/dashboard`,
+        });
+      }, 2000);
     },
     updateScooter() {
       this.update = async () => {
@@ -361,13 +369,19 @@ export default {
             data: this.form,
           })
           .then(() => {
-            console.log(this.form.statusId);
-            if (this.form.statusId === 2) {
-              this.confirmDialog = true;
-            }
             this.snackBar.type = "success";
             this.snackBar.enabled = true;
             this.snackBar.message = "Successfully update Scooter";
+
+            if (this.form.statusId === 2) {
+              this.confirmDialog = true;
+            } else {
+              setTimeout(() => {
+                this.$router.push({
+                  path: `/admin/dashboard`,
+                });
+              }, 1000);
+            }
           });
       };
 
