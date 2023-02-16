@@ -26,6 +26,7 @@
                     <v-text-field
                       color="primary"
                       label="Phone Number"
+                      v-mask="'##########'"
                       v-model="form.phone"
                       :rules="rules.phone"
                       required
@@ -185,7 +186,7 @@
     </v-snackbar>
     <confirm-dialog
       v-model="confirmDialog"
-      @cancel="confirmDialog = false"
+      @cancel="closeDialog"
       @confirm="sendSMS"
     />
   </div>
@@ -197,6 +198,7 @@ import ConfirmDialog from "./ConfirmDialog.vue";
 import PdfContent from "./PdfContent";
 import VueHtml2pdf from "vue-html2pdf";
 import axios from "axios";
+import dayjs from "dayjs";
 
 import { IPC_HANDLERS, IPC_FUNCTIONS } from "../../modules/constants";
 
@@ -213,7 +215,11 @@ export default {
       images: [],
       rules: {
         name: [(v) => !!v || "Name is required"],
-        phone: [(v) => !!v || "Phone Number is required"],
+        phone: [
+          (v) => !!v || "Phone Number is required",
+          (v) =>
+            (v || "").length >= 10 || "Phone Number must be a 10 digits number",
+        ],
         barcode: [
           (v) => !!v || "Barcode is required",
           (v) => Number.isInteger(Number(v)) || "Barcode must be a number",
@@ -336,7 +342,7 @@ export default {
               this.snackBar.enabled = true;
               this.snackBar.message = result[2];
             }
-            this.confirmDialog = false;
+            this.closeDialog();
           }
         })
         .catch((error) => {
@@ -346,21 +352,36 @@ export default {
           this.snackBar.message = "Unfortunately not sent SMS to the client";
         });
     },
+    closeDialog() {
+      this.confirmDialog = false;
+      setTimeout(() => {
+        this.$router.push({
+          path: `/admin/dashboard`,
+        });
+      }, 2000);
+    },
     updateScooter() {
       this.update = async () => {
+        this.form.updatedAt = dayjs().format("YYYY-MM-DD HH:mm:ss");
         await window.ipc
           .invoke(IPC_HANDLERS.DATABASE, {
             func: IPC_FUNCTIONS.UPDATE_SCOOTER,
             data: this.form,
           })
           .then(() => {
-            console.log(this.form.statusId);
-            if (this.form.statusId === 2) {
-              this.confirmDialog = true;
-            }
             this.snackBar.type = "success";
             this.snackBar.enabled = true;
             this.snackBar.message = "Successfully update Scooter";
+
+            if (this.form.statusId === 2) {
+              this.confirmDialog = true;
+            } else {
+              setTimeout(() => {
+                this.$router.push({
+                  path: `/admin/dashboard`,
+                });
+              }, 1000);
+            }
           });
       };
 

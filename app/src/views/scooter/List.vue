@@ -160,7 +160,6 @@ export default {
     this.getScooterList();
   },
   mounted() {
-    console.log(this.$store.getters.getRoleId);
     window.ipc.on("DATA_CHANGE", () => {
       this.getScooterList();
     });

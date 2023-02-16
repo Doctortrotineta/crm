@@ -103,6 +103,11 @@ export default {
   created() {
     this.getScooterList();
   },
+  mounted() {
+    window.ipc.on("DATA_CHANGE", () => {
+      this.getScooterList();
+    });
+  },
   methods: {
     setDateFormat(date) {
       return dayjs(date).format("DD/MM/YYYY");

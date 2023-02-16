@@ -12,6 +12,7 @@ export const IPC_FUNCTIONS = {
   GET_SCOOTER_BY_ID: "getScooterById",
   ADD_SCOOTER: "addScooter",
   UPDATE_SCOOTER: "updateScooter",
+  SYNCHRONIZE: "synchronize",
   DELETE_SCOOTER: "deleteScooter",
   UPLOAD_SIGNATURE: "uploadSignature",
   CHECK_SERVER_STATUS: "checkServerStatus",
