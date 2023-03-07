@@ -169,7 +169,7 @@ export default {
       this.getScooterList();
     },
     setDateFormat(date) {
-      return dayjs(date).format("DD/MM/YYYY");
+      return dayjs(date).format("DD/MM/YYYY HH:mm:ss");
     },
     getScooterList() {
       this.$http
