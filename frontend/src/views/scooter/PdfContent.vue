@@ -47,8 +47,15 @@
       <v-col cols="6">
         <v-row>
           <v-col cols="12">
-            <span class="black-text">SEMNATURA </span>
-            <span class="black-text"></span>
+            <div class="signature">
+              <span class="black-text">SEMNATURA </span>
+              <img
+                :src="item.signature"
+                alt="signature"
+                width="150"
+                height="80"
+              />
+            </div>
           </v-col>
         </v-row>
       </v-col>
@@ -159,5 +166,11 @@ export default {
   margin-right: 10px;
   background: #4299e1;
   border-radius: 3px;
+}
+.signature {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 20px;
 }
 </style>

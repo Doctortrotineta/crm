@@ -72,7 +72,6 @@ export default {
           func: IPC_FUNCTIONS.SYNCHRONIZE,
         })
         .then((res) => {
-          console.log(res);
           this.loading = false;
           if (res.status === STATUSES.ERROR) {
             this.snackBar.type = "error";
