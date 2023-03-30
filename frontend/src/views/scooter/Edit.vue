@@ -123,7 +123,7 @@
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
                         <v-img
-                          :src="signature"
+                          :src="form.signature"
                           alt="signature"
                           max-height="150"
                           max-width="120"
@@ -240,14 +240,7 @@ export default {
   mounted() {
     this.getItem();
   },
-  computed: {
-    signature() {
-      if (this.form.signature) {
-        return process.env.VUE_APP_UPLOAD_BASEURL + this.form.signature;
-      }
-      return null;
-    },
-  },
+  computed: {},
   methods: {
     getItem() {
       this.$http
@@ -356,24 +349,9 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.images.length) {
-          const formData = new FormData();
-          formData.append("file", this.images[0].file);
-          this.$http
-            .post("scooter/uploadSignature", formData, {
-              headers: { "X-Requested-With": "XMLHttpRequest" },
-            })
-            .then((response) => {
-              if (response.status === 200) {
-                this.form.signature = response.data.filename;
-                this.update();
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        } else {
-          this.update();
+          this.form.signature = this.images[0].preview;
         }
+        this.update();
       }
     },
   },

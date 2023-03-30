@@ -61,9 +61,9 @@
                   <tr>
                     <td class="item-title">Signature</td>
                     <td class="item-value">
-                      <div v-if="item.signature">
+                      <div v-if="item.signature" class="py-2">
                         <v-img
-                          :src="signature"
+                          :src="item.signature"
                           alt="signature"
                           max-height="150"
                           max-width="120"
@@ -145,14 +145,7 @@ export default {
   mounted() {
     this.getItem();
   },
-  computed: {
-    signature() {
-      if (this.item.signature) {
-        return process.env.VUE_APP_UPLOAD_BASEURL + this.item.signature;
-      }
-      return null;
-    },
-  },
+  computed: {},
   methods: {
     async getItem() {
       await window.ipc

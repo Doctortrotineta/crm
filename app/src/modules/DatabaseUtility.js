@@ -1,12 +1,9 @@
 const { app, remote } = require("electron");
-const axios = require("axios");
 const JSONdb = require("simple-json-db");
 const mysql = require("mysql");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const fs = require("fs");
-const FormData = require("form-data");
-const { LocalFileData } = require("get-file-object-from-local-path");
 
 const browserUtility = require("./BrowserWindowUtility");
 const { STATUSES, ACTIONS } = require("./constants");
@@ -50,22 +47,7 @@ const migration = () => {
             query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.problem}', '${item.notes}', '${item.price}', '${item.doneBy}', ${item.statusId}, '${item.createdAt}', '${item.updatedAt}')`;
             break;
           case ACTIONS.EDIT:
-            const formData = new FormData();
-            const fileData = new LocalFileData(item.filePath);
-            formData.append("file", fileData.arrayBuffer, fileData.name);
-            // const url =
-            //   process.env.VUE_APP_API_BASEURL + "scooter/uploadSignature";
-            // await axios
-            //   .post(url, fileData, {
-            //     headers: { "X-Requested-With": "XMLHttpRequest" },
-            //   })
-            //   .then((response) => {
-            //     console.log(response);
-            //   })
-            //   .catch((error) => {
-            //     console.log(error);
-            //   });
-            query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
+            query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
             break;
           case ACTIONS.DELETE:
             query = `DELETE from scooters WHERE id = ${item.id}`;
@@ -285,7 +267,7 @@ module.exports.updateScooter = (data) => {
       if (err) {
         this.handleUntracked(data);
       } else {
-        const query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', doneBy = '${data.doneBy}', statusId = ${data.statusId}, updatedAt = '${data.updatedAt}' WHERE id = ${data.id}`;
+        const query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', signature = '${data.signature}', doneBy = '${data.doneBy}', statusId = ${data.statusId}, updatedAt = '${data.updatedAt}' WHERE id = ${data.id}`;
         connection.query(query, (err) => {
           if (err) {
             this.handleUntracked(data);
@@ -383,10 +365,7 @@ module.exports.synchronize = () => {
                 query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.problem}', '${item.notes}', '${item.price}', '${item.doneBy}', ${item.statusId}, '${item.createdAt}', '${item.updatedAt}')`;
                 break;
               case ACTIONS.EDIT:
-                const formData = new FormData();
-                const fileData = new LocalFileData(item.filePath);
-                formData.append("file", fileData.arrayBuffer, fileData.name);
-                query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
+                query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
                 break;
               case ACTIONS.DELETE:
                 query = `DELETE from scooters WHERE id = ${item.id}`;

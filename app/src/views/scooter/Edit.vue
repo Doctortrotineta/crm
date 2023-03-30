@@ -123,11 +123,7 @@
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
                         <v-img
-                          :src="
-                            checkStatus()
-                              ? signature
-                              : `file://${this.form.filePath}`
-                          "
+                          :src="form.signature"
                           alt="signature"
                           max-height="150"
                           max-width="120"
@@ -251,14 +247,7 @@ export default {
   mounted() {
     this.getItem();
   },
-  computed: {
-    signature() {
-      if (this.form.signature) {
-        return process.env.VUE_APP_UPLOAD_BASEURL + this.form.signature;
-      }
-      return null;
-    },
-  },
+  computed: {},
   methods: {
     async getItem() {
       await window.ipc
@@ -267,6 +256,7 @@ export default {
           data: this.$route.params.id,
         })
         .then((result) => {
+          console.log(result);
           this.form = result;
         })
         .catch((error) => {
@@ -388,50 +378,9 @@ export default {
       const isValid = this.$refs.form.validate();
       if (isValid) {
         if (this.images.length) {
-          const formData = new FormData();
-          formData.append("file", this.images[0].file);
-          window.ipc
-            .invoke(IPC_HANDLERS.FILE_SYSTEM, {
-              func: IPC_FUNCTIONS.CHECK_SERVER_STATUS,
-            })
-            .then((response) => {
-              console.log(response);
-              if (response.statusCode === 200) {
-                this.$http
-                  .post("scooter/uploadSignature", formData, {
-                    headers: { "X-Requested-With": "XMLHttpRequest" },
-                  })
-                  .then((response) => {
-                    console.log("error");
-                    if (response.status === 200) {
-                      this.form.signature = response.data.filename;
-                      this.images = [];
-                      this.update();
-                    }
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
-              } else {
-                window.ipc
-                  .invoke(IPC_HANDLERS.FILE_SYSTEM, {
-                    func: IPC_FUNCTIONS.UPLOAD_SIGNATURE,
-                    data: {
-                      fileName: this.images[0].file.name,
-                      uri: this.images[0].preview,
-                    },
-                  })
-                  .then((response) => {
-                    this.form.signature = response.fileName;
-                    this.form.filePath = response.filePath;
-                    this.images = [];
-                    this.update();
-                  });
-              }
-            });
-        } else {
-          this.update();
+          this.form.signature = this.images[0].preview;
         }
+        this.update();
       }
     },
   },
