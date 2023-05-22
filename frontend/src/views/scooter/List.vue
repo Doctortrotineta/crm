@@ -15,8 +15,11 @@
             <v-toolbar flat>
               <v-toolbar-title>Scooter List</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn color="primary" dark class="mb-2" @click="onAddClick">
+              <v-btn color="primary" dark class="mb-2 mr-2" @click="onAddClick">
                 Add Scooter
+              </v-btn>
+              <v-btn color="success" dark class="mb-2" @click="onExportClick">
+                Export
               </v-btn>
               <!-- <v-btn color="primary" dark class="mb-2">Import</v-btn> -->
             </v-toolbar>
@@ -119,6 +122,7 @@
 import DeleteDialog from "./DeleteDialog.vue";
 
 import dayjs from "dayjs";
+import * as XLSX from "xlsx";
 import get from "get-value";
 
 export default {
@@ -223,6 +227,25 @@ export default {
       this.$router.push({
         path: `/admin/scooter/add`,
       });
+    },
+    onExportClick() {
+      this.$http
+        .get("scooter/exportExcel", {
+          params: {
+            search: this.search,
+          },
+        })
+        .then((response) => {
+          if (response.data.count > 0) {
+            const workbook = XLSX.utils.book_new();
+            const worksheet = XLSX.utils.json_to_sheet(response.data.result);
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, "download.xlsx");
+          }
+        })
+        .catch((error) => {
+          console.log("error->>", error);
+        });
     },
     onViewClick(id) {
       this.$router.push({

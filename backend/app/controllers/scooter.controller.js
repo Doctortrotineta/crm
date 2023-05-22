@@ -81,6 +81,53 @@ exports.getScooterList = (req, res) => {
     });
 };
 
+exports.getScooterExportList = (req, res) => {
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(400).send([]);
+  }
+
+  Scooter.findAndCountAll()
+    .then((data) => {
+      let search = req.query.search;
+
+      const statement = {};
+      if (search) {
+        statement[Op.or] = [
+          { id: { [Op.like]: "%" + search + "%" } },
+          { name: { [Op.like]: "%" + search + "%" } },
+          { phone: { [Op.like]: "%" + search + "%" } },
+          { barcode: { [Op.like]: "%" + search + "%" } },
+          { termen: { [Op.like]: "%" + search + "%" } },
+          { problem: { [Op.like]: "%" + search + "%" } },
+          { price: { [Op.like]: "%" + search + "%" } },
+          { createdAt: { [Op.like]: "%" + search + "%" } },
+          { updatedAt: { [Op.like]: "%" + search + "%" } },
+        ];
+      }
+
+      Scooter.findAll({
+        attributes: ['id', 'name', 'phone', 'model'],
+        where: statement,
+        order: [["id", "ASC"]], // fixed at here
+      }).then((results) => {
+        res.status(200).json({
+          status: 1,
+          message: "Data has been retrieved",
+          result: results,
+          count: data.count,
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: 0,
+        message: "Data is not retrieved from database",
+      });
+    });
+};
+
 exports.getScooterOne = (req, res) => {
   const { authorization } = req.headers;
   if (!authorization) {
@@ -108,11 +155,11 @@ exports.getSearchScooter = (req, res) => {
   Scooter.findAll({
     where: { id: { $regex: req.query.search } },
   })
-    .then((users) => {
+    .then((results) => {
       res.status(200).json({
         status: 1,
         message: "Data has been retrieved",
-        result: users,
+        result: results,
       });
     })
     .catch((err) => {
