@@ -81,6 +81,29 @@ exports.getScooterList = (req, res) => {
     });
 };
 
+exports.getScooterAll = (req, res) => {
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(400).send([]);
+  }
+
+  Scooter.findAll({})
+    .then((result) => {
+      res.status(200).json({
+        status: 1,
+        message: "Data has been retrieved",
+        result: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        status: 0,
+        message: "Data is not retrieved from database",
+      });
+    });
+};
+
 exports.getScooterExportList = (req, res) => {
   const { authorization } = req.headers;
   if (!authorization) {
@@ -107,7 +130,7 @@ exports.getScooterExportList = (req, res) => {
       }
 
       Scooter.findAll({
-        attributes: ['id', 'name', 'phone', 'model'],
+        attributes: ["id", "name", "phone", "model"],
         where: statement,
         order: [["id", "ASC"]], // fixed at here
       }).then((results) => {

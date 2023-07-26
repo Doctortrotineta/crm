@@ -69,7 +69,6 @@ export default {
       this.$http
         .post(`auth/signin`, this.form)
         .then((response) => {
-          console.log(response);
           this.$store.dispatch("setAuth", response.data);
           this.$router.push("/admin/dashboard");
         })

@@ -87,7 +87,6 @@ export default {
             data: this.form,
           })
           .then((result) => {
-            console.log(result);
             if (result.status === STATUSES.ERROR) {
               this.snackBar.enabled = true;
               this.snackBar.message = result.message;
