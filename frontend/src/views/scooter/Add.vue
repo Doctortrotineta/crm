@@ -7,7 +7,7 @@
           <v-card-text>
             <v-form
               ref="form"
-              v-model="valid"
+              v-model="formValid"
               lazy-validation
               @submit.prevent="submit"
             >
@@ -84,7 +84,14 @@
           <v-card-actions class="dialog-actions">
             <v-spacer></v-spacer>
             <v-btn color="error" small @click="handleClose"> Reset </v-btn>
-            <v-btn color="primary" small @click="addScooter"> Save </v-btn>
+            <v-btn
+              color="primary"
+              small
+              @click="addScooter"
+              :disabled="!formValid"
+            >
+              Save
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -107,6 +114,7 @@ export default {
   components: {},
   data() {
     return {
+      items: [],
       form: {
         name: "",
         phone: "",
@@ -122,13 +130,14 @@ export default {
         barcode: [
           (v) => !!v || "Barcode is required",
           (v) => Number.isInteger(Number(v)) || "Barcode must be a number",
+          (v) => this.isBarcodeUnique(v) || "Barcode already exists",
         ],
         model: [(v) => !!v || "Model is required"],
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
         problem: [(v) => !!v || "Problem is required"],
         price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
       },
-      valid: true,
+      formValid: true,
 
       snackBar: {
         type: "default",
@@ -138,8 +147,31 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.formValid = this.$refs.form.validate();
+    this.getScooterList();
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler() {
+        this.formValid = this.$refs.form.validate();
+      },
+    },
+  },
   methods: {
+    getScooterList() {
+      this.$http
+        .get("scooter/all")
+        .then((response) => {
+          if (response.data) {
+            this.items = response.data.result;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     handleClose() {
       this.$emit("close");
       this.$refs.form.resetValidation();
@@ -151,9 +183,11 @@ export default {
         this.$refs.form.resetValidation();
       }
     },
+    isBarcodeUnique() {
+      return !this.items.some((item) => item.barcode === this.form.barcode);
+    },
     addScooter() {
-      const isValid = this.$refs.form.validate();
-      if (isValid) {
+      if (this.formValid) {
         this.$http
           .post("scooter", this.form)
           .then((response) => {

@@ -7,7 +7,7 @@
           <v-card-text>
             <v-form
               ref="form"
-              v-model="valid"
+              v-model="formValid"
               lazy-validation
               @submit.prevent="submit"
             >
@@ -148,7 +148,14 @@
             <v-btn color="success" small @click="handlePrint">
               Print PDF
             </v-btn>
-            <v-btn color="primary" small @click="updateScooter"> Save </v-btn>
+            <v-btn
+              color="primary"
+              small
+              @click="updateScooter"
+              :disabled="!formValid"
+            >
+              Save
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -204,6 +211,7 @@ export default {
   },
   data() {
     return {
+      items: [],
       form: {},
       images: [],
       rules: {
@@ -212,6 +220,7 @@ export default {
         barcode: [
           (v) => !!v || "Barcode is required",
           (v) => Number.isInteger(Number(v)) || "Barcode must be a number",
+          (v) => this.isBarcodeUnique(v) || "Barcode already exists",
         ],
         model: [(v) => !!v || "Model is required"],
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
@@ -220,7 +229,7 @@ export default {
         status: [(v) => !!v || "Status is required"],
         imageRules: [(v) => v.length > 0 || "This image is required"],
       },
-      valid: true,
+      formValid: true,
       status: [
         { id: 1, title: "IN LUCRU" },
         { id: 2, title: "FINALIZAT" },
@@ -238,10 +247,33 @@ export default {
   },
   created() {},
   mounted() {
+    this.formValid = this.$refs.form.validate();
+    this.getScooterList();
     this.getItem();
   },
   computed: {},
+  watch: {
+    form: {
+      deep: true,
+      handler() {
+        this.formValid = this.$refs.form.validate();
+      },
+    },
+  },
   methods: {
+    getScooterList() {
+      this.$http
+        .get("scooter/all")
+        .then((response) => {
+          console.log(response);
+          if (response.data) {
+            this.items = response.data.result;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     getItem() {
       this.$http
         .get("scooter/" + this.$route.params.id)
@@ -255,6 +287,11 @@ export default {
           this.snackBar.enabled = true;
           this.snackBar.message = "Cannot get scooter item";
         });
+    },
+    isBarcodeUnique() {
+      return !this.items.some(
+        (item) => item.barcode === this.form.barcode && item.id !== this.form.id
+      );
     },
     handlePrint() {
       this.$refs.html2Pdf.generatePdf();
@@ -346,8 +383,7 @@ export default {
           });
       };
 
-      const isValid = this.$refs.form.validate();
-      if (isValid) {
+      if (this.formValid) {
         if (this.images.length) {
           this.form.signature = this.images[0].preview;
         }

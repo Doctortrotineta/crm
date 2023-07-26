@@ -11,6 +11,7 @@ module.exports = (app) => {
 
   // --------------------- Scooter CRUD section --------------------------------------------------------------
   app.get('/api/scooter', controller.getScooterList);
+  app.get('/api/scooter/all', controller.getScooterAll);
   app.get('/api/scooter/exportExcel', controller.getScooterExportList);
   app.get('/api/scooter/:id', controller.getScooterOne);
   app.post('/api/scooter', controller.addScooter);
