@@ -148,16 +148,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.formValid = this.$refs.form.validate();
     this.getScooterList();
-  },
-  watch: {
-    form: {
-      deep: true,
-      handler() {
-        this.formValid = this.$refs.form.validate();
-      },
-    },
   },
   methods: {
     getScooterList() {
@@ -187,7 +178,8 @@ export default {
       return !this.items.some((item) => item.barcode === this.form.barcode);
     },
     addScooter() {
-      if (this.formValid) {
+      const isValid = this.$refs.form.validate();
+      if (isValid) {
         this.$http
           .post("scooter", this.form)
           .then((response) => {

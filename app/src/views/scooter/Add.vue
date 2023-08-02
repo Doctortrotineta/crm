@@ -158,18 +158,9 @@ export default {
     this.getScooterList();
   },
   mounted() {
-    this.formValid = this.$refs.form.validate();
     window.ipc.on("DATA_CHANGE", () => {
       this.getScooterList();
     });
-  },
-  watch: {
-    form: {
-      deep: true,
-      handler() {
-        this.formValid = this.$refs.form.validate();
-      },
-    },
   },
   methods: {
     async getScooterList() {
@@ -189,7 +180,8 @@ export default {
       return !this.items.some((item) => item.barcode === this.form.barcode);
     },
     async addScooter() {
-      if (this.formValid) {
+      const isValid = this.$refs.form.validate();
+      if (isValid) {
         const data = {
           id: Date.now(),
           ...this.form,
