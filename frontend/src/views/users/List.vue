@@ -141,7 +141,12 @@ import ResetDialog from "./ResetDialog.vue";
 import DeleteDialog from "./DeleteDialog.vue";
 
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import get from "get-value";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default {
   name: "UserList",
@@ -195,7 +200,7 @@ export default {
       this.getUserList();
     },
     setDateFormat(date) {
-      return dayjs(date).format("DD/MM/YYYY");
+      return dayjs.tz(date, "UTC").format("DD/MM/YYYY HH:mm:ss");
     },
     getUserList() {
       this.$http

@@ -126,6 +126,12 @@
 
 <script>
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 export default {
   name: "PdfContent",
   components: {},
@@ -140,7 +146,7 @@ export default {
   },
   methods: {
     formatDate(date) {
-      return dayjs(date).format("D.MMM.YYYY");
+      return dayjs.tz(date, "UTC").format("D.MMM.YYYY");
     },
   },
 };
