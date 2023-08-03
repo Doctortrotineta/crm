@@ -81,6 +81,11 @@
 
 <script>
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default {
   name: "CompletedList",
@@ -115,7 +120,7 @@ export default {
       this.getScooterList();
     },
     setDateFormat(date) {
-      return dayjs(date).format("DD/MM/YYYY HH:mm:ss");
+      return dayjs.tz(date, "UTC").format("DD/MM/YYYY HH:mm:ss");
     },
     getScooterList() {
       this.$http
