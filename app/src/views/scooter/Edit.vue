@@ -256,21 +256,12 @@ export default {
     this.getScooterList();
   },
   mounted() {
-    this.formValid = this.$refs.form.validate();
     window.ipc.on("DATA_CHANGE", () => {
       this.getScooterList();
     });
     this.getItem();
   },
   computed: {},
-  watch: {
-    form: {
-      deep: true,
-      handler() {
-        this.formValid = this.$refs.form.validate();
-      },
-    },
-  },
   methods: {
     async getScooterList() {
       await window.ipc
@@ -412,7 +403,8 @@ export default {
           });
       };
 
-      if (this.formValid) {
+      const isValid = this.$refs.form.validate();
+      if (isValid) {
         if (this.images.length) {
           this.form.signature = this.images[0].preview;
         }
