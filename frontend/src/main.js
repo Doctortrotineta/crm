@@ -7,18 +7,9 @@ import vuetify from "./plugins/vuetify";
 import VueAxios from "vue-axios";
 import VuetifyUpload from "@kingscode/vuetify-upload";
 import axios from "axios";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-import "dayjs/locale/en";
 
 Vue.use(VuetifyUpload);
 Vue.config.productionTip = false;
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault("UTC");
-dayjs.locale("en");
 
 router.beforeEach((to, from, next) => {
   next();
