@@ -121,7 +121,7 @@
 <script>
 import DeleteDialog from "./DeleteDialog.vue";
 
-import moment from "moment";
+import dayjs from "dayjs";
 import * as XLSX from "xlsx";
 import get from "get-value";
 
@@ -173,7 +173,7 @@ export default {
       this.getScooterList();
     },
     setDateFormat(date) {
-      return moment(date).format("DD/MM/YYYY HH:mm:ss");
+      return dayjs(date).format("DD/MM/YYYY HH:mm:ss");
     },
     getScooterList() {
       this.$http
