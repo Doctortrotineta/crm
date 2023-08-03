@@ -12,6 +12,9 @@ const corsOptions = {
   origin: 'http://188.213.21.231/'
 };
 
+// set timezone
+process.env.TZ = 'UTC';
+
 app.use(cors());
 app.use(cors(corsOptions));
 
