@@ -1,6 +1,11 @@
 import Vue from "vue";
 import AdminLayout from "@/layouts/Admin";
 import Dashboard from "@/views/dashboard/Dashboard";
+import ScooterList from "@/views/scooter/List";
+import ScooterAdd from "@/views/scooter/Add";
+import ScooterEdit from "@/views/scooter/Edit";
+import ScooterView from "@/views/scooter/View";
+import UserList from "@/views/users/List";
 import Error from "@/views/Error";
 import i18n from "../../helpers/i18n";
 import store from "../store/index";
@@ -37,7 +42,7 @@ export default {
     {
       path: "/admin/scooter",
       name: "scooter",
-      component: () => import("@/views/scooter/List"),
+      component: ScooterList,
       meta: {
         title: "Scooters",
       },
@@ -45,7 +50,7 @@ export default {
     {
       path: "/admin/scooter/add",
       name: "add_scooter",
-      component: () => import("@/views/scooter/Add"),
+      component: ScooterAdd,
       meta: {
         title: "Add Scooter",
       },
@@ -53,7 +58,7 @@ export default {
     {
       path: "/admin/scooter/edit/:id",
       name: "edit_scooter",
-      component: () => import("@/views/scooter/Edit"),
+      component: ScooterEdit,
       meta: {
         title: "Edit Scooter",
       },
@@ -61,7 +66,7 @@ export default {
     {
       path: "/admin/scooter/view/:id",
       name: "view_scooter",
-      component: () => import("@/views/scooter/View"),
+      component: ScooterView,
       meta: {
         title: "View Scooter",
       },
@@ -69,7 +74,7 @@ export default {
     {
       path: "/admin/user",
       name: "user",
-      component: () => import("@/views/users/List"),
+      component: UserList,
       meta: {
         title: "Users",
       },

@@ -24,8 +24,17 @@ module.exports = (sequelize, Sequelize) => {
     price: {
       type: Sequelize.STRING
     },
+    series: {
+      type: Sequelize.STRING
+    },
+    km: {
+      type: Sequelize.STRING
+    },
     signature: {
       type: Sequelize.STRING
+    },
+    warranty: {
+      type: Sequelize.INTEGER,
     },
     doneBy: {
       type: Sequelize.STRING
@@ -36,13 +45,12 @@ module.exports = (sequelize, Sequelize) => {
     },
     createdAt: {
       type: 'TIMESTAMP',
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      allowNull: false
     },
     updatedAt: {
       type: 'TIMESTAMP',
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-      allowNull: false
+    },
+    finishedAt: {
+      type: 'TIMESTAMP',
     }
   });
 

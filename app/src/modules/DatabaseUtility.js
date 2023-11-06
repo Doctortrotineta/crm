@@ -44,10 +44,20 @@ const migration = () => {
         let query = "";
         switch (item.flag) {
           case ACTIONS.ADD:
-            query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.problem}', '${item.notes}', '${item.price}', '${item.doneBy}', ${item.statusId}, '${item.createdAt}', '${item.updatedAt}')`;
+            query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, statusId, createdAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.series}', '${item.km}', '${item.problem}', '${item.notes}', '${item.price}', '', '${item.doneBy}', ${item.statusId}, '${item.createdAt}')`;
             break;
           case ACTIONS.EDIT:
-            query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
+            switch (item.statusId) {
+              case 1:
+                query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', series = '${item.series}', km = '${item.km}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', statusId = ${item.statusId}, createdAt = '${item.createdAt}' WHERE id = ${item.id}`;
+                break;
+              case 2:
+                query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', series = '${item.series}', km = '${item.km}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
+                break;
+              case 3:
+                query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', series = '${item.series}', km = '${item.km}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', warranty = '${item.warranty}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, finishedAt = '${item.finishedAt}' WHERE id = ${item.id}`;
+                break;
+            }
             break;
           case ACTIONS.DELETE:
             query = `DELETE from scooters WHERE id = ${item.id}`;
@@ -74,6 +84,7 @@ const migration = () => {
           browserWindow.webContents.send("DATA_CHANGE");
         }
       });
+
       connection.end();
       return true;
     }
@@ -193,7 +204,7 @@ module.exports.addScooter = (data) => {
           console.log("case 1");
           resolve(data);
         } else {
-          const query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${data.name}', '${data.phone}', '${data.barcode}', '${data.model}', '${data.termen}', '${data.problem}', '${data.notes}', '${data.price}', '${data.doneBy}', ${data.statusId}, '${data.createdAt}', '${data.updatedAt}')`;
+          const query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, statusId, createdAt) VALUES('${data.name}', '${data.phone}', '${data.barcode}', '${data.model}', '${data.termen}', '${data.series}', '${data.km}', '${data.problem}', '${data.notes}', '${data.price}', '', '${data.doneBy}', ${data.statusId}, '${data.createdAt}')`;
           console.log("query:", query);
           connection.query(query, (err, result, fields) => {
             if (err) {
@@ -267,7 +278,18 @@ module.exports.updateScooter = (data) => {
       if (err) {
         this.handleUntracked(data);
       } else {
-        const query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', signature = '${data.signature}', doneBy = '${data.doneBy}', statusId = ${data.statusId}, updatedAt = '${data.updatedAt}' WHERE id = ${data.id}`;
+        let query = "";
+        switch (data.statusId) {
+          case 1:
+            query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', series = '${data.series}', km = '${data.km}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', signature = '${data.signature}', statusId = ${data.statusId}, createdAt = '${data.createdAt}' WHERE id = ${data.id}`;
+            break;
+          case 2:
+            query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', series = '${data.series}', km = '${data.km}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', signature = '${data.signature}', doneBy = '${data.doneBy}', statusId = ${data.statusId}, updatedAt = '${data.updatedAt}' WHERE id = ${data.id}`;
+            break;
+          case 3:
+            query = `UPDATE scooters set name = '${data.name}', phone = '${data.phone}', barcode = '${data.barcode}', model = '${data.model}', termen = '${data.termen}', series = '${data.series}', km = '${data.km}', problem = '${data.problem}', notes = '${data.notes}', price = '${data.price}', signature = '${data.signature}', warranty = '${data.warranty}', doneBy = '${data.doneBy}', statusId = ${data.statusId}, finishedAt = '${data.finishedAt}' WHERE id = ${data.id}`;
+            break;
+        }
         connection.query(query, (err) => {
           if (err) {
             this.handleUntracked(data);
@@ -362,10 +384,20 @@ module.exports.synchronize = () => {
             let query = "";
             switch (item.flag) {
               case ACTIONS.ADD:
-                query = `INSERT INTO scooters(name, phone, barcode, model, termen, problem, notes, price, doneBy, statusId, createdAt, updatedAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.problem}', '${item.notes}', '${item.price}', '${item.doneBy}', ${item.statusId}, '${item.createdAt}', '${item.updatedAt}')`;
+                query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, statusId, createdAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.series}', '${item.km}', '${item.problem}', '${item.notes}', '${item.price}', '', '${item.doneBy}', ${item.statusId}, '${item.createdAt}')`;
                 break;
               case ACTIONS.EDIT:
-                query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
+                switch (item.statusId) {
+                  case 1:
+                    query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', series = '${item.series}', km = '${item.km}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', statusId = ${item.statusId}, createdAt = '${item.createdAt}' WHERE id = ${item.id}`;
+                    break;
+                  case 2:
+                    query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', series = '${item.series}', km = '${item.km}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, updatedAt = '${item.updatedAt}' WHERE id = ${item.id}`;
+                    break;
+                  case 3:
+                    query = `UPDATE scooters set name = '${item.name}', phone = '${item.phone}', barcode = '${item.barcode}', model = '${item.model}', termen = '${item.termen}', series = '${item.series}', km = '${item.km}', problem = '${item.problem}', notes = '${item.notes}', price = '${item.price}', signature = '${item.signature}', warranty = '${item.warranty}', doneBy = '${item.doneBy}', statusId = ${item.statusId}, finishedAt = '${item.finishedAt}' WHERE id = ${item.id}`;
+                    break;
+                }
                 break;
               case ACTIONS.DELETE:
                 query = `DELETE from scooters WHERE id = ${item.id}`;
@@ -390,7 +422,6 @@ module.exports.synchronize = () => {
             browserWindow.webContents.send("DATA_CHANGE");
           })
         );
-        console.log("query ended");
         connection.end();
         resolve({
           status: STATUSES.SUCCESS,

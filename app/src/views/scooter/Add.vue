@@ -59,6 +59,24 @@
                       required
                     ></v-text-field>
                   </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      color="primary"
+                      label="Serie motor/trotineta"
+                      v-model="form.series"
+                      :rules="rules.series"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      color="primary"
+                      label="Nr Km"
+                      v-model="form.km"
+                      :rules="rules.km"
+                      required
+                    ></v-text-field>
+                  </v-col>
                   <v-col cols="12">
                     <v-textarea
                       color="primary"
@@ -125,6 +143,8 @@ export default {
         barcode: "",
         model: "",
         termen: "",
+        series: "",
+        km: "",
         problem: "",
         price: "",
       },
@@ -142,6 +162,8 @@ export default {
         ],
         model: [(v) => !!v || "Model is required"],
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
+        series: [(v) => !!v || "Serie motor/trotineta is required"],
+        km: [(v) => !!v || "Nr Km is required"],
         problem: [(v) => !!v || "Problem is required"],
         price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
       },
@@ -189,7 +211,6 @@ export default {
           doneBy: "",
           statusId: 1,
           createdAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-          updatedAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         };
         await window.ipc
           .invoke(IPC_HANDLERS.DATABASE, {

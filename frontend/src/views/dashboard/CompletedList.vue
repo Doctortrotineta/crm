@@ -26,9 +26,6 @@
             </v-col>
           </v-row>
         </template>
-        <template v-slot:[`item.createdAt`]="{ item }">
-          {{ item.createdAt ? setDateFormat(item.createdAt) : "Not Available" }}
-        </template>
         <template v-slot:[`item.updatedAt`]="{ item }">
           {{ item.updatedAt ? setDateFormat(item.updatedAt) : "Not Available" }}
         </template>
@@ -103,8 +100,7 @@ export default {
         { text: "Barcode", value: "barcode" },
         { text: "Model", value: "model" },
         { text: "Price", value: "price" },
-        { text: "Created Date", value: "createdAt" },
-        { text: "Updated Date", value: "updatedAt" },
+        { text: "Date", value: "updatedAt" },
         { text: "Actions", value: "actions", sortable: false },
       ],
       items: [],

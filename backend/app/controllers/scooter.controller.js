@@ -50,6 +50,7 @@ exports.getScooterList = (req, res) => {
           { price: { [Op.like]: "%" + search + "%" } },
           { createdAt: { [Op.like]: "%" + search + "%" } },
           { updatedAt: { [Op.like]: "%" + search + "%" } },
+          { finishedAt: { [Op.like]: "%" + search + "%" } },
         ];
       }
 
@@ -126,6 +127,7 @@ exports.getScooterExportList = (req, res) => {
           { price: { [Op.like]: "%" + search + "%" } },
           { createdAt: { [Op.like]: "%" + search + "%" } },
           { updatedAt: { [Op.like]: "%" + search + "%" } },
+          { finishedAt: { [Op.like]: "%" + search + "%" } },
         ];
       }
 

@@ -46,6 +46,11 @@
               item.updatedAt ? setDateFormat(item.updatedAt) : "Not Available"
             }}
           </template>
+          <template v-slot:[`item.finishedAt`]="{ item }">
+            {{
+              item.finishedAt ? setDateFormat(item.finishedAt) : "Not Available"
+            }}
+          </template>
           <template v-slot:[`item.statusId`]="{ item }">
             <v-chip :color="getStatus(item.statusId).color" dark>
               {{ getStatus(item.statusId).name }}
@@ -149,6 +154,7 @@ export default {
         { text: "Price", value: "price" },
         { text: "Created Date", value: "createdAt" },
         { text: "Updated Date", value: "updatedAt" },
+        { text: "Finished Date", value: "finishedAt" },
         { text: "Status", value: "statusId", sortable: false },
         { text: "Actions", value: "actions", sortable: false },
       ],

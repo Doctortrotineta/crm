@@ -35,6 +35,10 @@
                     <td class="item-value">{{ item.problem }}</td>
                   </tr>
                   <tr>
+                    <td class="item-title">Notes</td>
+                    <td class="item-value">{{ item.notes }}</td>
+                  </tr>
+                  <tr>
                     <td class="item-title">Price</td>
                     <td class="item-value">{{ item.price }}</td>
                   </tr>
@@ -53,6 +57,10 @@
                         {{ getStatus(item.statusId).name }}
                       </v-chip>
                     </td>
+                  </tr>
+                  <tr v-if="item.statusId == 3">
+                    <td class="item-title">Warranty</td>
+                    <td class="item-value">{{ item.warranty }} days</td>
                   </tr>
                   <tr v-if="item.statusId > 1">
                     <td class="item-title">Done By</td>
@@ -98,7 +106,10 @@
       pdf-content-width="100%"
       ref="html2Pdf"
     >
-      <section slot="pdf-content">
+      <section slot="pdf-content" v-if="item.statusId == 3">
+        <pdf-warranty :item="item" />
+      </section>
+      <section slot="pdf-content" v-else>
         <pdf-content :item="item" />
       </section>
     </VueHtml2pdf>
@@ -116,12 +127,14 @@
 
 <script>
 import PdfContent from "./PdfContent";
+import PdfWarranty from "./PdfWarranty";
 import VueHtml2pdf from "vue-html2pdf";
 
 export default {
   name: "EditScooter",
   components: {
     PdfContent,
+    PdfWarranty,
     VueHtml2pdf,
   },
   data() {

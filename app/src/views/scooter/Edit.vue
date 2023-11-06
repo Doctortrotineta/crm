@@ -5,139 +5,75 @@
         <v-card style="width: 100%; max-width: 600px">
           <v-card-title class="dialog-title"> Edit Scooter </v-card-title>
           <v-card-text>
-            <v-form
-              ref="form"
-              v-model="formValid"
-              lazy-validation
-              @submit.prevent="submit"
-            >
+            <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="submit">
               <v-container fluid class="px-0">
                 <v-row>
                   <v-col cols="12" sm="12">
-                    <v-text-field
-                      color="primary"
-                      label="Name"
-                      v-model="form.name"
-                      :rules="rules.name"
-                      required
-                    ></v-text-field>
+                    <v-text-field color="primary" label="Name" v-model="form.name" :rules="rules.name"
+                      required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field
-                      color="primary"
-                      label="Phone Number"
-                      v-mask="'##########'"
-                      v-model="form.phone"
-                      :rules="rules.phone"
-                      required
-                    ></v-text-field>
+                    <v-text-field color="primary" label="Phone Number" v-mask="'##########'" v-model="form.phone"
+                      :rules="rules.phone" required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field
-                      color="primary"
-                      label="Barcode"
-                      v-model="form.barcode"
-                      :rules="rules.barcode"
-                      required
-                    ></v-text-field>
+                    <v-text-field color="primary" label="Barcode" v-model="form.barcode" :rules="rules.barcode"
+                      required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field
-                      color="primary"
-                      label="Model"
-                      v-model="form.model"
-                      :rules="rules.model"
-                      required
-                    ></v-text-field>
+                    <v-text-field color="primary" label="Model" v-model="form.model" :rules="rules.model"
+                      required></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field
-                      color="primary"
-                      label="TERMEN APROXIMATIV"
-                      v-model="form.termen"
-                      :rules="rules.termen"
-                      required
-                    ></v-text-field>
+                    <v-text-field color="primary" label="TERMEN APROXIMATIV" v-model="form.termen" :rules="rules.termen"
+                      required></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field color="primary" label="Serie motor/trotineta" v-model="form.series"
+                      :rules="rules.series" required></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field color="primary" label="Nr Km" v-model="form.km" :rules="rules.km"
+                      required></v-text-field>
                   </v-col>
                   <v-col cols="12">
-                    <v-textarea
-                      color="primary"
-                      label="Problem"
-                      :rows="3"
-                      v-model="form.problem"
-                      :rules="rules.problem"
-                      required
-                    >
+                    <v-textarea color="primary" label="Problem" :rows="3" v-model="form.problem" :rules="rules.problem"
+                      required>
                     </v-textarea>
                   </v-col>
                   <v-col cols="12">
-                    <v-textarea
-                      color="primary"
-                      label="Notes"
-                      :rows="3"
-                      v-model="form.notes"
-                    >
+                    <v-textarea color="primary" label="Notes" :rows="3" v-model="form.notes">
                     </v-textarea>
                   </v-col>
                   <v-col cols="12">
-                    <v-text-field
-                      color="primary"
-                      label="Price"
-                      v-model="form.price"
-                      :rules="rules.price"
-                      required
-                    ></v-text-field>
+                    <v-text-field color="primary" label="Price" v-model="form.price" :rules="rules.price"
+                      required></v-text-field>
                   </v-col>
                   <v-col cols="12">
-                    <v-select
-                      color="primary"
-                      label="Status"
-                      placeholder="Select a Status"
-                      :items="status"
-                      v-model="form.statusId"
-                      item-text="title"
-                      item-value="id"
-                      :rules="rules.status"
-                      required
-                    ></v-select>
+                    <v-select color="primary" label="Status" placeholder="Select a Status" :items="status"
+                      v-model="form.statusId" item-text="title" item-value="id" :rules="rules.status" required></v-select>
+                  </v-col>
+                  <v-col cols="12" v-if="form.statusId == 3">
+                    <v-select color="primary" label="Warranty" placeholder="Select a warranty" :items="warranties"
+                      v-model="form.warranty" item-text="title" item-value="id" :rules="rules.warranty"
+                      required></v-select>
                   </v-col>
                   <v-col cols="12" v-if="form.statusId > 1">
-                    <v-text-field
-                      color="primary"
-                      label="Done By"
-                      v-model="form.doneBy"
-                    ></v-text-field>
+                    <v-text-field color="primary" label="Done By" v-model="form.doneBy"></v-text-field>
                   </v-col>
                   <v-col cols="12">
                     <div class="signature-wrapper" v-if="form.signature">
                       <span class="text-caption">Signature</span>
                       <div class="signature-img">
-                        <v-btn
-                          x-small
-                          icon
-                          color="white"
-                          class="close-btn"
-                          style="background: #ff5252"
-                          @click="removeSignature()"
-                        >
+                        <v-btn x-small icon color="white" class="close-btn" style="background: #ff5252"
+                          @click="removeSignature()">
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
-                        <v-img
-                          :src="form.signature"
-                          alt="signature"
-                          max-height="150"
-                          max-width="120"
-                        ></v-img>
+                        <v-img :src="form.signature" alt="signature" max-height="150" max-width="120"></v-img>
                       </div>
                     </div>
-                    <vuetify-upload
-                      v-else
-                      :max="1"
-                      can-delete
-                      accept="image/*"
-                      color="accent"
-                      v-model="images"
-                    ></vuetify-upload>
+                    <vuetify-upload v-else :max="1" can-delete accept="image/*" color="accent"
+                      v-model="images"></vuetify-upload>
                   </v-col>
                 </v-row>
               </v-container>
@@ -148,50 +84,27 @@
             <v-btn color="success" small @click="handlePrint">
               Print PDF
             </v-btn>
-            <v-btn
-              color="primary"
-              small
-              @click="updateScooter"
-              :disabled="!formValid"
-            >
+            <v-btn color="primary" small @click="updateScooter" :disabled="!formValid">
               Save
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <VueHtml2pdf
-      :show-layout="false"
-      :float-layout="true"
-      :enable-download="false"
-      :preview-modal="true"
-      :paginate-elements-by-height="1400"
-      filename="download"
-      :pdf-quality="2"
-      :manual-pagination="false"
-      pdf-format="a4"
-      pdf-orientation="portrait"
-      pdf-content-width="100%"
-      ref="html2Pdf"
-    >
-      <section slot="pdf-content">
+    <VueHtml2pdf :show-layout="false" :float-layout="true" :enable-download="false" :preview-modal="true"
+      :paginate-elements-by-height="1400" filename="download" :pdf-quality="2" :manual-pagination="false" pdf-format="a4"
+      pdf-orientation="portrait" pdf-content-width="100%" ref="html2Pdf">
+      <section slot="pdf-content" v-if="form.statusId == 3">
+        <pdf-warranty :item="form" :fileNumber="parseInt(certificatFileNumber.value)" />
+      </section>
+      <section slot="pdf-content" v-else>
         <pdf-content :item="form" />
       </section>
     </VueHtml2pdf>
-    <v-snackbar
-      v-model="snackBar.enabled"
-      timeout="3000"
-      :color="snackBar.type"
-      top
-      right
-    >
+    <v-snackbar v-model="snackBar.enabled" timeout="3000" :color="snackBar.type" top right>
       {{ snackBar.message }}
     </v-snackbar>
-    <confirm-dialog
-      v-model="confirmDialog"
-      @cancel="closeDialog"
-      @confirm="sendSMS"
-    />
+    <confirm-dialog v-model="confirmDialog" @cancel="closeDialog" @confirm="sendSMS" />
   </div>
 </template>
 
@@ -199,6 +112,7 @@
 import ConfirmDialog from "./ConfirmDialog.vue";
 
 import PdfContent from "./PdfContent";
+import PdfWarranty from "./PdfWarranty";
 import VueHtml2pdf from "vue-html2pdf";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -210,6 +124,7 @@ export default {
   components: {
     ConfirmDialog,
     PdfContent,
+    PdfWarranty,
     VueHtml2pdf,
   },
   data() {
@@ -231,9 +146,12 @@ export default {
         ],
         model: [(v) => !!v || "Model is required"],
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
+        series: [(v) => !!v || "Serie motor/trotineta is required"],
+        km: [(v) => !!v || "Nr Km is required"],
         problem: [(v) => !!v || "Problem is required"],
         price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
         status: [(v) => !!v || "Status is required"],
+        warranty: [(v) => !!v || "Warranty is required"],
         imageRules: [(v) => v.length > 0 || "This image is required"],
       },
       formValid: true,
@@ -242,7 +160,13 @@ export default {
         { id: 2, title: "FINALIZAT" },
         { id: 3, title: "IESIT" },
       ],
+      warranties: [
+        { id: 30, title: "30 days" },
+        { id: 90, title: "90 days" },
+        { id: 120, title: "180 days" },
+      ],
 
+      certificatFileNumber: {},
       confirmDialog: false,
 
       snackBar: {
@@ -279,7 +203,6 @@ export default {
           data: this.$route.params.id,
         })
         .then((result) => {
-          console.log(result);
           this.form = result;
         })
         .catch((error) => {
@@ -305,7 +228,6 @@ export default {
           func: IPC_FUNCTIONS.CHECK_SERVER_STATUS,
         })
         .then((response) => {
-          console.log(response);
           if (response.statusCode === 200) {
             return true;
           } else {
@@ -364,7 +286,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
           this.snackBar.type = "error";
           this.snackBar.enabled = true;
           this.snackBar.message = "Unfortunately not sent SMS to the client";
@@ -372,15 +293,21 @@ export default {
     },
     closeDialog() {
       this.confirmDialog = false;
-      setTimeout(() => {
-        this.$router.push({
-          path: `/admin/dashboard`,
-        });
-      }, 2000);
     },
     updateScooter() {
       this.update = async () => {
-        this.form.updatedAt = dayjs().format("YYYY-MM-DD HH:mm:ss");
+        switch (this.form.statusId) {
+          case 1:
+            this.form.createdAt = dayjs().format("YYYY-MM-DD HH:mm:ss");
+            break;
+          case 2:
+            this.form.updatedAt = dayjs().format("YYYY-MM-DD HH:mm:ss");
+            break;
+          case 3:
+            this.form.finishedAt = dayjs().format("YYYY-MM-DD HH:mm:ss");
+            break;
+        }
+
         await window.ipc
           .invoke(IPC_HANDLERS.DATABASE, {
             func: IPC_FUNCTIONS.UPDATE_SCOOTER,
@@ -393,12 +320,6 @@ export default {
 
             if (this.form.statusId === 2) {
               this.confirmDialog = true;
-            } else {
-              setTimeout(() => {
-                this.$router.push({
-                  path: `/admin/dashboard`,
-                });
-              }, 1000);
             }
           });
       };
@@ -408,6 +329,7 @@ export default {
         if (this.images.length) {
           this.form.signature = this.images[0].preview;
         }
+
         this.update();
       }
     },
@@ -421,19 +343,23 @@ export default {
   font-weight: 500;
   line-height: 24px;
 }
+
 .dialog_actions {
   padding: 10px 16px;
 }
+
 .signature-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
+
 .signature-img {
   position: relative;
   padding: 10px;
   padding-left: 0;
 }
+
 .close-btn {
   position: absolute;
   overflow: hidden;

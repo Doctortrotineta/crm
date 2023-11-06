@@ -1,5 +1,7 @@
 <template>
-  <v-container style="padding: 70px">
+  <v-container
+    style="padding: 70px; font-family: 'Times New Roman', Times, serif"
+  >
     <v-row>
       <v-col cols="12" style="display: flex; justify-content: center">
         <img :src="require('@/assets/logo_big.jpg')" width="87" />

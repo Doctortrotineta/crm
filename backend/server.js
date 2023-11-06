@@ -8,8 +8,8 @@ const history = require('connect-history-api-fallback');
 const app = express();
 
 const corsOptions = {
-  // origin: 'http://localhost:8080'
-  origin: 'http://188.213.21.231/'
+  origin: 'http://localhost:8080'
+  // origin: 'http://188.213.21.231/'
 };
 
 // set timezone

@@ -100,6 +100,19 @@
                       required
                     ></v-select>
                   </v-col>
+                  <v-col cols="12" v-if="form.statusId == 3">
+                    <v-select
+                      color="primary"
+                      label="Warranty"
+                      placeholder="Select a warranty"
+                      :items="warranties"
+                      v-model="form.warranty"
+                      item-text="title"
+                      item-value="id"
+                      :rules="rules.warranty"
+                      required
+                    ></v-select>
+                  </v-col>
                   <v-col cols="12" v-if="form.statusId > 1">
                     <v-text-field
                       color="primary"
@@ -174,7 +187,10 @@
       pdf-content-width="100%"
       ref="html2Pdf"
     >
-      <section slot="pdf-content">
+      <section slot="pdf-content" v-if="form.statusId == 3">
+        <pdf-warranty :item="form" />
+      </section>
+      <section slot="pdf-content" v-else>
         <pdf-content :item="form" />
       </section>
     </VueHtml2pdf>
@@ -198,6 +214,7 @@
 <script>
 import ConfirmDialog from "./ConfirmDialog.vue";
 import PdfContent from "./PdfContent";
+import PdfWarranty from "./PdfWarranty";
 import VueHtml2pdf from "vue-html2pdf";
 
 import axios from "axios";
@@ -207,6 +224,7 @@ export default {
   components: {
     ConfirmDialog,
     PdfContent,
+    PdfWarranty,
     VueHtml2pdf,
   },
   data() {
@@ -227,6 +245,7 @@ export default {
         problem: [(v) => !!v || "Problem is required"],
         price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
         status: [(v) => !!v || "Status is required"],
+        warranty: [(v) => !!v || "Warranty is required"],
         imageRules: [(v) => v.length > 0 || "This image is required"],
       },
       formValid: true,
@@ -234,6 +253,11 @@ export default {
         { id: 1, title: "IN LUCRU" },
         { id: 2, title: "FINALIZAT" },
         { id: 3, title: "IESIT" },
+      ],
+      warranties: [
+        { id: 30, title: "30 days" },
+        { id: 90, title: "90 days" },
+        { id: 120, title: "120 days" },
       ],
 
       confirmDialog: false,

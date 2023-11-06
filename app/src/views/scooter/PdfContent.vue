@@ -1,5 +1,7 @@
 <template>
-  <v-container style="padding: 70px">
+  <v-container
+    style="padding: 70px; font-family: 'Times New Roman', Times, serif"
+  >
     <v-row>
       <v-col cols="12" style="display: flex; justify-content: center">
         <img :src="require('@/assets/logo_big.jpg')" width="87" />
@@ -20,82 +22,6 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
-        <span class="black-text">Nume / Prenume : </span>
-        <span class="black-text">{{ item.name }}</span>
-      </v-col>
-      <v-col cols="6">
-        <v-row>
-          <v-col cols="12">
-            <span class="black-text">Telefon : </span>
-            <span class="black-text">{{ item.phone }}</span>
-          </v-col>
-          <v-col cols="12">
-            <span class="black-text">CODBARE : </span>
-            <span class="black-text">{{ item.barcode }}</span>
-          </v-col>
-          <v-col cols="12">
-            <span class="black-text">MODEL : </span>
-            <span class="black-text">{{ item.model }}</span>
-          </v-col>
-          <v-col cols="12">
-            <span class="black-text">TERMEN : </span>
-            <span class="black-text">{{ item.termen }}</span>
-          </v-col>
-        </v-row>
-      </v-col>
-      <v-col cols="6">
-        <v-row>
-          <v-col cols="12">
-            <div class="signature">
-              <span class="black-text">SEMNATURA </span>
-              <img
-                :src="item.signature"
-                alt="signature"
-                width="150"
-                height="80"
-              />
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        <span class="black-text">Probleme : </span>
-        <div
-          style="
-            width: 100%;
-            min-height: 150px;
-            border: 2px solid #48bb78;
-            margin-top: 5px;
-          "
-        >
-          <p style="padding: 10px; text-align: left; white-space: pre-line">
-            {{ item.problem }}
-          </p>
-        </div>
-      </v-col>
-    </v-row>
-    <v-row style="margin-bottom: 16px">
-      <v-col cols="12">
-        <span class="black-text">Cost reparatie : </span>
-        <span class="black-text text-uppercase">{{ item.price }} LEI</span>
-      </v-col>
-      <v-col cols="12">
-        <span class="red-text"
-          >Am luat la cunostinta pretul si termenul de executie al
-          lucrarii.</span
-        >
-      </v-col>
-      <v-col cols="12">
-        <span class="checkbox"
-          >Sunt de acord cu preluarea si prelucrarea datelor cu caracter
-          personal conform procedurii GDPR</span
-        >
-      </v-col>
-    </v-row>
-    <v-row style="margin-bottom: 32px">
       <v-col cols="5">
         <v-row>
           <v-col cols="12"
@@ -110,9 +36,96 @@
         </v-row>
       </v-col>
       <v-col cols="7">
-        <span class="black-text">DATA : {{ formatDate(item.createdAt) }}</span>
+        <span class="black-text">DATA : {{ item.statusId == 1 ? formatDate(item.createdAt) : formatDate(item.updatedAt) }}</span>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <span class="black-text">Defecte sesizate client : </span>
+        <div
+          style="
+            width: 100%;
+            min-height: 150px;
+            border: 2px solid #48bb78;
+            margin-top: 5px;
+          "
+        >
+          <p style="padding: 10px; text-align: left; white-space: pre-line">
+            {{ item.problem }}
+          </p>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <span class="black-text">Cost reparatie : </span>
+        <span class="black-text text-uppercase">{{ item.price }} LEI</span>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <span class="black-text">Nume / Prenume : </span>
+        <span class="black-text">{{ item.name }}</span>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <span class="black-text">Telefon : </span>
+        <span class="black-text">{{ item.phone }}</span>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <span class="black-text">Nr Km : </span>
+        <span class="black-text">{{ item.km }}</span>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <span class="black-text">Cod client : </span>
+            <span class="black-text">{{ item.barcode }}</span>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <span class="black-text">MODEL : </span>
+        <span class="black-text">{{ item.model }}</span>
+      </v-col>
+      
+    </v-row>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <span class="black-text">TERMEN : </span>
+        <span class="black-text">{{ item.termen }}</span>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <span class="black-text">Serie motor/trotineta : </span>
+        <span class="black-text">{{ item.series }}</span>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <span class="red-text"
+          >Am luat la cunostinta pretul si termenul de executie al
+          lucrarii.</span
+        >
+      </v-col>
+      <v-col cols="12">
+        <span class="checkbox"
+          >Sunt de acord cu preluarea si prelucrarea datelor cu caracter
+          personal conform procedurii GDPR</span
+        >
+      </v-col>
+      <v-col cols="12">
+        <div class="signature">
+          <span class="black-text">SEMNATURA </span>
+          <img
+            :src="item.signature"
+            alt="signature"
+            height="20"
+          />
+        </div>
+      </v-col>
+    </v-row>
+
     <v-row>
       <v-col cols="12">
         <span class="red-text" style="font-weight: 600">
@@ -169,8 +182,8 @@ export default {
 }
 .signature {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
-  column-gap: 20px;
+  column-gap: 4px;
 }
 </style>
