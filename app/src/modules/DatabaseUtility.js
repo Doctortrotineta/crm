@@ -44,7 +44,7 @@ const migration = () => {
         let query = "";
         switch (item.flag) {
           case ACTIONS.ADD:
-            query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, codes, type, payment, statusId, createdAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.series}', '${item.km}', '${item.problem}', '${item.notes}', '${item.price}', '', '${item.doneBy}', ${data.codes}, ${data.type}, '', ${item.statusId}, '${item.createdAt}')`;
+            query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, codes, type, payment, statusId, createdAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.series}', '${item.km}', '${item.problem}', '${item.notes}', '${item.price}', '', '${item.doneBy}', '${item.codes}', '${item.type}', '', ${item.statusId}, '${item.createdAt}')`;
             break;
           case ACTIONS.EDIT:
             switch (item.statusId) {
@@ -66,6 +66,7 @@ const migration = () => {
             break;
         }
         if (query) {
+          console.log(query);
           await this.executeQuery(query);
           temp = temp.filter((obj) => obj.id !== item.id);
           db.set("untracked", temp);
@@ -204,7 +205,7 @@ module.exports.addScooter = (data) => {
           console.log("case 1");
           resolve(data);
         } else {
-          const query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, codes, type, payment, statusId, createdAt) VALUES('${data.name}', '${data.phone}', '${data.barcode}', '${data.model}', '${data.termen}', '${data.series}', '${data.km}', '${data.problem}', '${data.notes}', '${data.price}', '', '${data.doneBy}', ${data.codes}, ${data.type}, '', ${data.statusId}, '${data.createdAt}')`;
+          const query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, codes, type, payment, statusId, createdAt) VALUES('${data.name}', '${data.phone}', '${data.barcode}', '${data.model}', '${data.termen}', '${data.series}', '${data.km}', '${data.problem}', '${data.notes}', '${data.price}', '', '${data.doneBy}', '${data.codes}', '${data.type}', '', ${data.statusId}, '${data.createdAt}')`;
           console.log("query:", query);
           connection.query(query, (err, result, fields) => {
             if (err) {
@@ -384,7 +385,7 @@ module.exports.synchronize = () => {
             let query = "";
             switch (item.flag) {
               case ACTIONS.ADD:
-                query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, codes, type, payment, statusId, createdAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.series}', '${item.km}', '${item.problem}', '${item.notes}', '${item.price}', '', '${item.doneBy}', ${data.codes}, ${data.type}, '', ${item.statusId}, '${item.createdAt}')`;
+                query = `INSERT INTO scooters(name, phone, barcode, model, termen, series, km, problem, notes, price, signature, doneBy, codes, type, payment, statusId, createdAt) VALUES('${item.name}', '${item.phone}', '${item.barcode}', '${item.model}', '${item.termen}', '${item.series}', '${item.km}', '${item.problem}', '${item.notes}', '${item.price}', '', '${item.doneBy}', '${item.codes}', '${item.type}', '', ${item.statusId}, '${item.createdAt}')`;
                 break;
               case ACTIONS.EDIT:
                 switch (item.statusId) {
