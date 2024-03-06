@@ -39,6 +39,15 @@ module.exports = (sequelize, Sequelize) => {
     doneBy: {
       type: Sequelize.STRING
     },
+    codes: {
+      type: Sequelize.STRING
+    },
+    type: {
+      type: Sequelize.STRING
+    },
+    payment: {
+      type: Sequelize.STRING
+    },
     statusId: {
       type: Sequelize.INTEGER.UNSIGNED,
       defaultValue: 1

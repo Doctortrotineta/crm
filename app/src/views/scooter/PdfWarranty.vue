@@ -1,5 +1,7 @@
 <template>
-  <v-container style="padding: 50px; font-family: 'Times New Roman', Times, serif">
+  <v-container
+    style="padding: 50px; font-family: 'Times New Roman', Times, serif"
+  >
     <v-row>
       <v-col cols="12" style="display: flex; justify-content: center">
         <img :src="require('@/assets/logo_big.jpg')" width="87" />
@@ -7,12 +9,14 @@
     </v-row>
     <v-row style="margin-top: 8px; margin-bottom: 20px">
       <v-col cols="12">
-        <h1 style="
+        <h1
+          style="
             color: #000;
             text-align: center;
             font-size: 30px;
             font-weight: 700;
-          ">
+          "
+        >
           Certificat de garantie
         </h1>
       </v-col>
@@ -31,7 +35,7 @@
         <span class="black-text">{{ item.model }}</span>
       </v-col>
     </v-row>
-    <v-row no-gutters style="margin-top: 8px;">
+    <v-row no-gutters style="margin-top: 8px">
       <v-col cols="12" sm="4">
         <span class="black-text">Serie motor : </span>
         <span class="black-text">{{ item.series }}</span>
@@ -49,12 +53,14 @@
     <v-row no-gutters style="margin-top: 16px">
       <v-col cols="12">
         <span class="black-text">Defecte sesizate client : </span>
-        <div style="
+        <div
+          style="
             width: 100%;
             min-height: 150px;
             border: 2px solid #000;
             margin-top: 5px;
-          ">
+          "
+        >
           <p style="padding: 10px; text-align: left; white-space: pre-line">
             {{ item.problem }}
           </p>
@@ -64,12 +70,14 @@
     <v-row no-gutters style="margin-top: 12px">
       <v-col cols="12">
         <span class="black-text">Defecte remediate : </span>
-        <div style="
+        <div
+          style="
             width: 100%;
             min-height: 150px;
             border: 2px solid #000;
             margin-top: 5px;
-          ">
+          "
+        >
           <p style="padding: 10px; text-align: left; white-space: pre-line">
             {{ item.notes }}
           </p>
@@ -120,60 +128,75 @@
         </ul>
       </v-col>
     </v-row>
-    <v-row no-gutters justify="space-between"
-      style="margin-top: 20px; justify-content: space-between; padding-right: 20px">
+    <v-row
+      no-gutters
+      justify="space-between"
+      style="
+        margin-top: 20px;
+        justify-content: space-between;
+        padding-right: 20px;
+      "
+    >
       <v-col cols="auto">
-        <p class="black-text" style="
+        <p
+          class="black-text"
+          style="
             margin-bottom: 0;
             font-weight: 700;
             text-transform: uppercase;
             text-align: center;
-          ">
+          "
+        >
           VANZATOR
         </p>
-        <p class="black-text" style="
+        <p
+          class="black-text"
+          style="
             margin-bottom: 0;
             font-weight: 700;
             text-transform: uppercase;
             text-align: center;
-          ">
+          "
+        >
           ELECTRIC MOVE SRL
         </p>
       </v-col>
       <v-col cols="auto">
-        <p class="black-text" style="
+        <p
+          class="black-text"
+          style="
             margin-bottom: 0;
             font-weight: 700;
             text-transform: uppercase;
             text-align: center;
-          ">
+          "
+        >
           CLIENT
         </p>
-        <p class="black-text" style="
-            margin-bottom: 0;
-            font-weight: 700;
-            text-align: left;
-          ">
+        <p
+          class="black-text"
+          style="margin-bottom: 0; font-weight: 700; text-align: left"
+        >
           NUME : {{ item.name }}
         </p>
         <div class="signature">
-          <p class="black-text" style="
-            margin-bottom: 0;
-            font-weight: 700;
-            text-align: center;
-          ">SEMNATURA : </p>
-          <img
-            :src="item.signature"
-            alt="signature"
-            height="30"
-          />
+          <p
+            class="black-text"
+            style="margin-bottom: 0; font-weight: 700; text-align: center"
+          >
+            SEMNATURA :
+          </p>
+          <img :src="item.signature" alt="signature" height="30" />
         </div>
-        <p class="black-text" style="
+        <p
+          class="black-text"
+          style="
             margin-bottom: 0;
             font-weight: 700;
             text-transform: uppercase;
             text-align: left;
-          ">
+          "
+        >
           DATA : {{ formatDate(item.finisheddAt) }}
         </p>
       </v-col>
@@ -189,12 +212,12 @@ export default {
   props: {
     item: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
     fileNumber: {
       type: Number,
       default: () => 0,
-    }
+    },
   },
   data() {
     return {};

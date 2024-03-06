@@ -36,7 +36,14 @@
         </v-row>
       </v-col>
       <v-col cols="7">
-        <span class="black-text">DATA : {{ item.statusId == 1 ? formatDate(item.createdAt) : formatDate(item.updatedAt) }}</span>
+        <span class="black-text"
+          >DATA :
+          {{
+            item.statusId == 1
+              ? formatDate(item.createdAt)
+              : formatDate(item.updatedAt)
+          }}</span
+        >
       </v-col>
     </v-row>
     <v-row>
@@ -82,13 +89,12 @@
     <v-row>
       <v-col cols="12" sm="6">
         <span class="black-text">Cod client : </span>
-            <span class="black-text">{{ item.barcode }}</span>
+        <span class="black-text">{{ item.barcode }}</span>
       </v-col>
       <v-col cols="12" sm="6">
         <span class="black-text">MODEL : </span>
         <span class="black-text">{{ item.model }}</span>
       </v-col>
-      
     </v-row>
     <v-row>
       <v-col cols="12" sm="6">
@@ -117,11 +123,7 @@
       <v-col cols="12">
         <div class="signature">
           <span class="black-text">SEMNATURA </span>
-          <img
-            :src="item.signature"
-            alt="signature"
-            height="30"
-          />
+          <img :src="item.signature" alt="signature" height="30" />
         </div>
       </v-col>
     </v-row>

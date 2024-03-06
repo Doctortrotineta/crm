@@ -5,75 +5,202 @@
         <v-card style="width: 100%; max-width: 600px">
           <v-card-title class="dialog-title"> Edit Scooter </v-card-title>
           <v-card-text>
-            <v-form ref="form" v-model="formValid" lazy-validation @submit.prevent="submit">
+            <v-form
+              ref="form"
+              v-model="formValid"
+              lazy-validation
+              @submit.prevent="submit"
+            >
               <v-container fluid class="px-0">
                 <v-row>
                   <v-col cols="12" sm="12">
-                    <v-text-field color="primary" label="Name" v-model="form.name" :rules="rules.name"
-                      required></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="Name"
+                      v-model="form.name"
+                      :rules="rules.name"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field color="primary" label="Phone Number" v-mask="'##########'" v-model="form.phone"
-                      :rules="rules.phone" required></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="Phone Number"
+                      v-model="form.phone"
+                      :rules="rules.phone"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field color="primary" label="Barcode" v-model="form.barcode" :rules="rules.barcode"
-                      required></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="Barcode"
+                      v-model="form.barcode"
+                      :rules="rules.barcode"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field color="primary" label="Model" v-model="form.model" :rules="rules.model"
-                      required></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="Model"
+                      v-model="form.model"
+                      :rules="rules.model"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field color="primary" label="TERMEN APROXIMATIV" v-model="form.termen" :rules="rules.termen"
-                      required></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="TERMEN APROXIMATIV"
+                      v-model="form.termen"
+                      :rules="rules.termen"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field color="primary" label="Serie motor/trotineta" v-model="form.series"
-                      :rules="rules.series" required></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="Serie motor/trotineta"
+                      v-model="form.series"
+                      :rules="rules.series"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
-                    <v-text-field color="primary" label="Nr Km" v-model="form.km" :rules="rules.km"
-                      required></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="Nr Km"
+                      v-model="form.km"
+                      :rules="rules.km"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12">
-                    <v-textarea color="primary" label="Problem" :rows="3" v-model="form.problem" :rules="rules.problem"
-                      required>
+                    <v-select
+                      color="primary"
+                      label="Type"
+                      placeholder="Select a Type"
+                      :items="types"
+                      v-model="form.type"
+                      :rules="rules.type"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea
+                      color="primary"
+                      label="Codes"
+                      :rows="3"
+                      v-model="form.codes"
+                      :rules="rules.codes"
+                      required
+                    >
                     </v-textarea>
                   </v-col>
                   <v-col cols="12">
-                    <v-textarea color="primary" label="Notes" :rows="3" v-model="form.notes">
+                    <v-textarea
+                      color="primary"
+                      label="Problem"
+                      :rows="3"
+                      v-model="form.problem"
+                      :rules="rules.problem"
+                      required
+                    >
                     </v-textarea>
                   </v-col>
                   <v-col cols="12">
-                    <v-text-field color="primary" label="Price" v-model="form.price" :rules="rules.price"
-                      required></v-text-field>
+                    <v-textarea
+                      color="primary"
+                      label="Notes"
+                      :rows="3"
+                      v-model="form.notes"
+                    >
+                    </v-textarea>
                   </v-col>
                   <v-col cols="12">
-                    <v-select color="primary" label="Status" placeholder="Select a Status" :items="status"
-                      v-model="form.statusId" item-text="title" item-value="id" :rules="rules.status" required></v-select>
+                    <v-text-field
+                      color="primary"
+                      label="Price"
+                      v-model="form.price"
+                      :rules="rules.price"
+                      required
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" v-if="form.statusId == 3">
-                    <v-select color="primary" label="Warranty" placeholder="Select a warranty" :items="warranties"
-                      v-model="form.warranty" item-text="title" item-value="id" :rules="rules.warranty"
-                      required></v-select>
+                    <v-select
+                      color="primary"
+                      label="Payment Method"
+                      placeholder="Select a Payment Method"
+                      :items="paymentMethods"
+                      v-model="form.payment"
+                      :rules="rules.payment"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-select
+                      color="primary"
+                      label="Status"
+                      placeholder="Select a Status"
+                      :items="status"
+                      v-model="form.statusId"
+                      item-text="title"
+                      item-value="id"
+                      :rules="rules.status"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" v-if="form.statusId == 3">
+                    <v-select
+                      color="primary"
+                      label="Warranty"
+                      placeholder="Select a warranty"
+                      :items="warranties"
+                      v-model="form.warranty"
+                      item-text="title"
+                      item-value="id"
+                      :rules="rules.warranty"
+                      required
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" v-if="form.statusId > 1">
-                    <v-text-field color="primary" label="Done By" v-model="form.doneBy"></v-text-field>
+                    <v-text-field
+                      color="primary"
+                      label="Done By"
+                      v-model="form.doneBy"
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12">
                     <div class="signature-wrapper" v-if="form.signature">
                       <span class="text-caption">Signature</span>
                       <div class="signature-img">
-                        <v-btn x-small icon color="white" class="close-btn" style="background: #ff5252"
-                          @click="removeSignature()">
+                        <v-btn
+                          x-small
+                          icon
+                          color="white"
+                          class="close-btn"
+                          style="background: #ff5252"
+                          @click="removeSignature()"
+                        >
                           <v-icon>mdi-close</v-icon>
                         </v-btn>
-                        <v-img :src="form.signature" alt="signature" max-height="150" max-width="120"></v-img>
+                        <v-img
+                          :src="form.signature"
+                          alt="signature"
+                          max-height="150"
+                          max-width="120"
+                        ></v-img>
                       </div>
                     </div>
-                    <vuetify-upload v-else :max="1" can-delete accept="image/*" color="accent"
-                      v-model="images"></vuetify-upload>
+                    <vuetify-upload
+                      v-else
+                      :max="1"
+                      can-delete
+                      accept="image/*"
+                      color="accent"
+                      v-model="images"
+                    ></vuetify-upload>
                   </v-col>
                 </v-row>
               </v-container>
@@ -84,27 +211,56 @@
             <v-btn color="success" small @click="handlePrint">
               Print PDF
             </v-btn>
-            <v-btn color="primary" small @click="updateScooter" :disabled="!formValid">
+            <v-btn
+              color="primary"
+              small
+              @click="updateScooter"
+              :disabled="!formValid"
+            >
               Save
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <VueHtml2pdf :show-layout="false" :float-layout="true" :enable-download="false" :preview-modal="true"
-      :paginate-elements-by-height="1400" filename="download" :pdf-quality="2" :manual-pagination="false" pdf-format="a4"
-      pdf-orientation="portrait" pdf-content-width="100%" ref="html2Pdf">
+    <VueHtml2pdf
+      :show-layout="false"
+      :float-layout="true"
+      :enable-download="false"
+      :preview-modal="true"
+      :paginate-elements-by-height="1400"
+      filename="download"
+      :pdf-quality="2"
+      :manual-pagination="false"
+      pdf-format="a4"
+      pdf-orientation="portrait"
+      pdf-content-width="100%"
+      ref="html2Pdf"
+    >
       <section slot="pdf-content" v-if="form.statusId == 3">
-        <pdf-warranty :item="form" :fileNumber="parseInt(certificatFileNumber.value)" />
+        <pdf-warranty
+          :item="form"
+          :fileNumber="parseInt(certificatFileNumber.value)"
+        />
       </section>
       <section slot="pdf-content" v-else>
         <pdf-content :item="form" />
       </section>
     </VueHtml2pdf>
-    <v-snackbar v-model="snackBar.enabled" timeout="3000" :color="snackBar.type" top right>
+    <v-snackbar
+      v-model="snackBar.enabled"
+      timeout="3000"
+      :color="snackBar.type"
+      top
+      right
+    >
       {{ snackBar.message }}
     </v-snackbar>
-    <confirm-dialog v-model="confirmDialog" @cancel="closeDialog" @confirm="sendSMS" />
+    <confirm-dialog
+      v-model="confirmDialog"
+      @cancel="closeDialog"
+      @confirm="sendSMS"
+    />
   </div>
 </template>
 
@@ -137,7 +293,8 @@ export default {
         phone: [
           (v) => !!v || "Phone Number is required",
           (v) =>
-            (v || "").length >= 10 || "Phone Number must be a 10 digits number",
+            /^[+]?(\d{10}|\d{11})$/.test(v) ||
+            "Phone Number must be a valid 10 or 11 digit number starting with a '+' sign",
         ],
         barcode: [
           (v) => !!v || "Barcode is required",
@@ -148,8 +305,11 @@ export default {
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
         series: [(v) => !!v || "Serie motor/trotineta is required"],
         km: [(v) => !!v || "Nr Km is required"],
+        type: [(v) => !!v || "Type is required"],
         problem: [(v) => !!v || "Problem is required"],
+        codes: [(v) => !!v || "Codes is required"],
         price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
+        payment: [(v) => !!v || "Payment method is required"],
         status: [(v) => !!v || "Status is required"],
         warranty: [(v) => !!v || "Warranty is required"],
         imageRules: [(v) => v.length > 0 || "This image is required"],
@@ -165,7 +325,8 @@ export default {
         { id: 90, title: "90 days" },
         { id: 120, title: "180 days" },
       ],
-
+      types: ["Scooter", "Bike"],
+      paymentMethods: ["Cash", "Card", "Casa"],
       certificatFileNumber: {},
       confirmDialog: false,
 
@@ -256,40 +417,76 @@ export default {
       message += "O zi buna !\n";
       message +=
         "Doctortrotineta.ro\n0723110511\nProgram luni-vineri 08.00-17.00";
+
+      const data = JSON.stringify({
+        phone: this.form.phone,
+        shortTextMessage: message,
+        sendAsShort: true,
+      });
+
       await axios({
-        method: "GET",
-        url: process.env.VUE_APP_SMSLINK_URL,
+        method: "POST",
+        url: process.env.VUE_APP_SMSADVERT_API_URL,
         headers: {
-          "content-type": "application/octet-stream",
-          useQueryString: true,
+          Authorization: process.env.VUE_APP_SMSADVERT_API_TOKEN,
+          "Content-Type": "application/json",
         },
-        params: {
-          to: this.form.phone,
-          message: message,
-          connection_id: process.env.VUE_APP_SMSLINK_CONNECTTION_ID,
-          password: process.env.VUE_APP_SMSLINK_PASSWORD,
-        },
+        data: data,
       })
         .then((res) => {
+          console.log(res);
+          console.log(res.status);
           if (res.status === 200) {
-            const result = res.data.split(";");
-            if (result[0] === "ERROR") {
-              this.snackBar.type = "error";
-              this.snackBar.enabled = true;
-              this.snackBar.message = result[2];
-            } else {
-              this.snackBar.type = "success";
-              this.snackBar.enabled = true;
-              this.snackBar.message = result[2];
-            }
-            this.closeDialog();
+            this.snackBar.type = "success";
+            this.snackBar.enabled = true;
+            this.snackBar.message = res.data.successMessage;
+          } else {
+            this.snackBar.type = "error";
+            this.snackBar.enabled = true;
+            this.snackBar.message = "Unfortunately not sent SMS to the client";
           }
+          this.closeDialog();
         })
         .catch((error) => {
           this.snackBar.type = "error";
           this.snackBar.enabled = true;
           this.snackBar.message = "Unfortunately not sent SMS to the client";
         });
+
+      // await axios({
+      //   method: "GET",
+      //   url: process.env.VUE_APP_SMSLINK_URL,
+      //   headers: {
+      //     "content-type": "application/octet-stream",
+      //     useQueryString: true,
+      //   },
+      //   params: {
+      //     to: this.form.phone,
+      //     message: message,
+      //     connection_id: process.env.VUE_APP_SMSLINK_CONNECTTION_ID,
+      //     password: process.env.VUE_APP_SMSLINK_PASSWORD,
+      //   },
+      // })
+      //   .then((res) => {
+      //     if (res.status === 200) {
+      //       const result = res.data.split(";");
+      //       if (result[0] === "ERROR") {
+      //         this.snackBar.type = "error";
+      //         this.snackBar.enabled = true;
+      //         this.snackBar.message = result[2];
+      //       } else {
+      //         this.snackBar.type = "success";
+      //         this.snackBar.enabled = true;
+      //         this.snackBar.message = result[2];
+      //       }
+      //       this.closeDialog();
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     this.snackBar.type = "error";
+      //     this.snackBar.enabled = true;
+      //     this.snackBar.message = "Unfortunately not sent SMS to the client";
+      //   });
     },
     closeDialog() {
       this.confirmDialog = false;

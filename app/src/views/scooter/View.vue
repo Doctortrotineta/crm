@@ -39,6 +39,14 @@
                     <td class="item-value">{{ item.km }}</td>
                   </tr>
                   <tr>
+                    <td class="item-title">Type</td>
+                    <td class="item-value">{{ item.type }}</td>
+                  </tr>
+                  <tr>
+                    <td class="item-title">Codes</td>
+                    <td class="item-value">{{ item.codes }}</td>
+                  </tr>
+                  <tr>
                     <td class="item-title">Problem</td>
                     <td class="item-value">{{ item.problem }}</td>
                   </tr>
@@ -57,6 +65,10 @@
                   <tr>
                     <td class="item-title">Price</td>
                     <td class="item-value">{{ item.price }}</td>
+                  </tr>
+                  <tr>
+                    <td class="item-title">Payment Method</td>
+                    <td class="item-value">{{ item.payment }}</td>
                   </tr>
                   <tr>
                     <td class="item-title">Status</td>

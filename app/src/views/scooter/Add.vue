@@ -26,7 +26,6 @@
                     <v-text-field
                       color="primary"
                       label="Phone Number"
-                      v-mask="'##########'"
                       v-model="form.phone"
                       :rules="rules.phone"
                       required
@@ -76,6 +75,28 @@
                       :rules="rules.km"
                       required
                     ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-select
+                      color="primary"
+                      label="Type"
+                      placeholder="Select a Type"
+                      :items="types"
+                      v-model="form.type"
+                      :rules="rules.type"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea
+                      color="primary"
+                      label="Codes"
+                      :rows="3"
+                      v-model="form.codes"
+                      :rules="rules.codes"
+                      required
+                    >
+                    </v-textarea>
                   </v-col>
                   <v-col cols="12">
                     <v-textarea
@@ -145,15 +166,19 @@ export default {
         termen: "",
         series: "",
         km: "",
+        type: "",
         problem: "",
+        codes: "",
         price: "",
       },
+      types: ["Scooter", "Bike"],
       rules: {
         name: [(v) => !!v || "Name is required"],
         phone: [
           (v) => !!v || "Phone Number is required",
           (v) =>
-            (v || "").length >= 10 || "Phone Number must be a 10 digits number",
+            /^[+]?(\d{10}|\d{11})$/.test(v) ||
+            "Phone Number must be a valid 10 or 11 digit number starting with a '+' sign",
         ],
         barcode: [
           (v) => !!v || "Barcode is required",
@@ -164,7 +189,9 @@ export default {
         termen: [(v) => !!v || "TERMEN APROXIMATIV is required"],
         series: [(v) => !!v || "Serie motor/trotineta is required"],
         km: [(v) => !!v || "Nr Km is required"],
+        type: [(v) => !!v || "Type is required"],
         problem: [(v) => !!v || "Problem is required"],
+        codes: [(v) => !!v || "Problem is required"],
         price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
       },
       formValid: true,
@@ -212,6 +239,7 @@ export default {
           statusId: 1,
           createdAt: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         };
+        console.log(data);
         await window.ipc
           .invoke(IPC_HANDLERS.DATABASE, {
             func: IPC_FUNCTIONS.ADD_SCOOTER,
