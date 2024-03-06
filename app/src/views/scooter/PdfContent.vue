@@ -120,7 +120,7 @@
           <img
             :src="item.signature"
             alt="signature"
-            height="20"
+            height="30"
           />
         </div>
       </v-col>
