@@ -98,11 +98,12 @@
           omologate sau certificate, materialelor de exploatare, așa cum sunt
           definite în OUG 140/2021, materialelor de întreținere și produselor
           recondiționate care sunt destinate vehiculelor rutiere, introduse pe
-          piață de SC ELECTRIC MOVE SRL și care sunt comercializate/ distribuite
-          către consumatori, denumite în continuare produse/ materiale.
-          Produsele comercializate de SC ELECTRIC MOVE SRL sunt interschimbabile
-          cu piese originale conform cataloagelor și listelor editate de
-          producători. Garanția se aplică în conformitate cu OUG nr140/2021.
+          piață de SC DOCTORTROTINETA SRL și care sunt comercializate/
+          distribuite către consumatori, denumite în continuare produse/
+          materiale. Produsele comercializate de SC DOCTORTROTINETA SRL sunt
+          interschimbabile cu piese originale conform cataloagelor și listelor
+          editate de producători. Garanția se aplică în conformitate cu OUG
+          nr140/2021.
         </span>
       </v-col>
     </v-row>
@@ -158,7 +159,7 @@
             text-align: center;
           "
         >
-          ELECTRIC MOVE SRL
+          DOCTORTROTINETA SRL
         </p>
       </v-col>
       <v-col cols="auto">

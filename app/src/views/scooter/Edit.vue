@@ -311,7 +311,12 @@ export default {
         price: [(v) => Number.isInteger(Number(v)) || "Price must be a number"],
         payment: [(v) => !!v || "Payment method is required"],
         status: [(v) => !!v || "Status is required"],
-        warranty: [(v) => !!v || "Warranty is required"],
+        warranty: [
+          (v) =>
+            (v !== null && v !== undefined) ||
+            v === 0 ||
+            "Warranty is required",
+        ],
         imageRules: [(v) => v.length > 0 || "This image is required"],
       },
       formValid: true,
@@ -321,6 +326,7 @@ export default {
         { id: 3, title: "IESIT" },
       ],
       warranties: [
+        { id: 0, title: "0 days" },
         { id: 30, title: "30 days" },
         { id: 90, title: "90 days" },
         { id: 120, title: "180 days" },

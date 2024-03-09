@@ -255,6 +255,7 @@ export default {
         { id: 3, title: "IESIT" },
       ],
       warranties: [
+        { id: 0, title: "0 days" },
         { id: 30, title: "30 days" },
         { id: 90, title: "90 days" },
         { id: 120, title: "120 days" },

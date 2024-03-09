@@ -103,6 +103,13 @@
               <span>Delete</span>
             </v-tooltip>
           </template>
+          <template v-slot:item="{ item }">
+            <tr
+              :style="{
+                'background-color': item.special ? 'lightblue' : 'inherit',
+              }"
+            ></tr>
+          </template>
         </v-data-table>
       </v-card-text>
     </v-card>

@@ -30,72 +30,95 @@
               </v-col>
             </v-row>
           </template>
-          <template v-slot:[`item.createdAt`]="{ item }">
-            {{
-              item.createdAt ? setDateFormat(item.createdAt) : "Not Available"
-            }}
-          </template>
-          <template v-slot:[`item.updatedAt`]="{ item }">
-            {{
-              item.updatedAt ? setDateFormat(item.updatedAt) : "Not Available"
-            }}
-          </template>
-          <template v-slot:[`item.finishedAt`]="{ item }">
-            {{
-              item.finishedAt ? setDateFormat(item.finishedAt) : "Not Available"
-            }}
-          </template>
-          <template v-slot:[`item.statusId`]="{ item }">
-            <v-chip :color="getStatus(item.statusId).color" dark>
-              {{ getStatus(item.statusId).name }}
-            </v-chip>
-          </template>
-          <template v-slot:[`item.actions`]="{ item }">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  small
-                  color="success"
-                  class="mr-2"
-                  @click="onViewClick(item.id)"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  mdi-eye
-                </v-icon>
-              </template>
-              <span>View</span>
-            </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  small
-                  color="primary"
-                  class="mr-2"
-                  @click="onEditClick(item.id)"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  mdi-pencil
-                </v-icon>
-              </template>
-              <span>Edit</span>
-            </v-tooltip>
-            <v-tooltip bottom v-if="$store.getters.getRoleId === 1">
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  small
-                  color="red"
-                  class="mr-2"
-                  @click="onDeleteClick(item)"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  mdi-delete
-                </v-icon>
-              </template>
-              <span>Delete</span>
-            </v-tooltip>
+          <template v-slot:item="{ item }">
+            <tr
+              :style="{
+                'background-color':
+                  item.payment === 'Casa' ? 'rgb(245 111 111)' : 'inherit',
+                color: item.payment === 'Casa' ? '#fff' : 'inherit',
+              }"
+            >
+              <td>{{ item.name }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.barcode }}</td>
+              <td>{{ item.model }}</td>
+              <td>{{ item.termen }}</td>
+              <td>{{ item.problem }}</td>
+              <td>{{ item.price }}</td>
+              <td>
+                {{
+                  item.createdAt
+                    ? setDateFormat(item.createdAt)
+                    : "Not Available"
+                }}
+              </td>
+              <td>
+                {{
+                  item.updatedAt
+                    ? setDateFormat(item.updatedAt)
+                    : "Not Available"
+                }}
+              </td>
+              <td>
+                {{
+                  item.updatedAt
+                    ? setDateFormat(item.finishedAt)
+                    : "Not Available"
+                }}
+              </td>
+              <td>
+                <v-chip :color="getStatus(item.statusId).color" dark>
+                  {{ getStatus(item.statusId).name }}
+                </v-chip>
+              </td>
+              <td>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      color="success"
+                      class="mr-2"
+                      @click="onViewClick(item.id)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      mdi-eye
+                    </v-icon>
+                  </template>
+                  <span>View</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      color="primary"
+                      class="mr-2"
+                      @click="onEditClick(item.id)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      mdi-pencil
+                    </v-icon>
+                  </template>
+                  <span>Edit</span>
+                </v-tooltip>
+                <v-tooltip bottom v-if="$store.getters.getRoleId === 1">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      color="red"
+                      class="mr-2"
+                      @click="onDeleteClick(item)"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      mdi-delete
+                    </v-icon>
+                  </template>
+                  <span>Delete</span>
+                </v-tooltip>
+              </td>
+            </tr>
           </template>
         </v-data-table>
       </v-card-text>
