@@ -1,5 +1,5 @@
 module.exports = {
-  HOST: 'localhost',
+  HOST: '188.213.21.231',
   USER: 'doctortrotineta',
   PASSWORD: 'Mailsurf22!',
   // USER: 'root',
