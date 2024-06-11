@@ -73,7 +73,7 @@ const migration = () => {
         }
       });
 
-      connection.query("SELECT * FROM scooters", (err, rows) => {
+      connection.query("SELECT id, payment, name, phone, barcode,model,termen,problem,price,createdAt,updatedAt,finishedAt,statusId FROM scooters", (err, rows) => {
         if (err) {
           console.log("An error ocurred performing the query.");
           console.log(err);
@@ -413,7 +413,7 @@ module.exports.synchronize = () => {
               db.set("untracked", temp);
             }
           }),
-          connection.query("SELECT * FROM scooters", (err, rows) => {
+          connection.query("SELECT id, payment, name, phone, barcode,model,termen,problem,price,createdAt,updatedAt,finishedAt,statusId FROM scooters", (err, rows) => {
             if (err) {
               console.log("An error ocurred performing the query.");
               console.log(err);
