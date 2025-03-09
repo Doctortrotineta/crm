@@ -195,41 +195,28 @@ exports.getSearchScooter = (req, res) => {
     });
 };
 
-exports.updateScooter = async (req, res) => {
+exports.updateScooter = (req, res) => {
   const { authorization } = req.headers;
   if (!authorization) {
-    return res.status(400).send({ message: "Unauthorized" });
+    return res.status(400).send([]);
   }
 
-  try {
-    // Find the existing scooter entry
-    const scooter = await Scooter.findByPk(req.body.id);
-    if (!scooter) {
-      return res.status(404).json({ message: "Scooter not found" });
-    }
-    const updateValues = {
-      name: req.body.name,
-      phone: req.body.phone,
-      barcode: req.body.barcode,
-      model: req.body.model,
-      termen: req.body.termen,
-      problem: req.body.problem,
-      notes: req.body.notes,
-      price: req.body.price,
-      signature: req.body.signature,
-      doneBy: req.body.doneBy,
-      statusId: req.body.statusId,
-      createdAt: scooter.createdAt, 
-      editedAt: new Date(), 
-    };
-
-    await Scooter.update(updateValues, { where: { id: req.body.id } });
-
-    res.status(200).json({ message: "Scooter updated successfully", scooter: updateValues });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error updating scooter" });
-  }
+  const updateValues = {
+    name: req.body.name,
+    phone: req.body.phone,
+    barcode: req.body.barcode,
+    model: req.body.model,
+    termen: req.body.termen,
+    problem: req.body.problem,
+    notes: req.body.notes,
+    price: req.body.price,
+    signature: req.body.signature,
+    doneBy: req.body.doneBy,
+    statusId: req.body.statusId,
+  };
+  Scooter.update(updateValues, { where: { id: req.body.id } }).then((data) => {
+    res.status(200).send(data);
+  });
 };
 
 exports.uploadSignature = (req, res) => {
